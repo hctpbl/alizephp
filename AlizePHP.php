@@ -94,11 +94,21 @@ class AlizePHP {
 		return true;
 	}
 	
-	public function DetectEnergy($cfg_file_path = null) {
+	public function detectEnergy($cfg_file_path = null) {
 		if ($cfg_file_path === null) {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['detect_energy'];
 		}
 		$command = $this->getBinPath()."EnergyDetector --config $cfg_file_path --inputFeatureFilename ".$this->speaker." --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath();
+		print "<p>$command</p>";
+		$outvalues = $this->executeCommand($command);
+		return true;
+	}
+	
+	public function normaliseFeaures($cfg_file_path = null) {
+		if ($cfg_file_path === null) {
+			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['normalise_features'];
+		}
+		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$this->speaker." --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath();
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
 		return true;
