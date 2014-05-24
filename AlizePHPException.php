@@ -1,4 +1,4 @@
 <?php
 namespace alizephp;
 
-class AlizePHPException extends Exception {}
+class AlizePHPException extends \Exception {}
