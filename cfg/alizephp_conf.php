@@ -5,12 +5,15 @@
 		'base_conf_dir' => 'cfg' . DIRECTORY_SEPARATOR,
 		'audio_dir' => 'pcm' . DIRECTORY_SEPARATOR,
 		'features_dir' => 'prm' . DIRECTORY_SEPARATOR,
+		'labels_dir' => 'prm' . DIRECTORY_SEPARATOR,
 		'cfg_files' => array (
 				'normalise_energy' => 'NormFeat_energy_SPro.cfg'
+				'detect_energy' => 'EnergyDetector_SPro.cfg'
 			),
 		'extensions' => array(
 				'audio' => '.pcm',
 				'raw_features' => '.tmp.prm',
-				'normalised_features' => '.enr.tmp.prm'
+				'normalised_features' => '.enr.tmp.prm',
+				'label' => '.lbl'
 			)
 	);

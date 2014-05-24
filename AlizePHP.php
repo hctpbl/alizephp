@@ -35,6 +35,8 @@ class AlizePHP {
 		// $outvalues[0] is return value
 		$outvalues[0] = proc_close($process);
 		
+		if ($outvalues[0] != 0) throw new AlizePHPException($outvalues[2], $outvalues[0]);
+		
 		return $outvalues;
 		
 	}
@@ -59,14 +61,18 @@ class AlizePHP {
 		return $this->getBaseDataDir() . $this->conf['features_dir'] ;
 	}
 	
-	function __construct($speaker, $audio_file_path) {
+	public function getLabelsFilePath() {
+		return $this->getBaseDataDir() . $this->conf['labels_dir'] ;
+	}
+	
+	public function __construct($speaker, $audio_file_path) {
 		$this->getConfig();
 		$this->speaker = $speaker;
 		if (!$speaker) Throw new AlizePHPException("Speaker must be a nonempty value.");
 		file_put_contents("data/pcm/".$this->speaker.".pcm", file_get_contents($audio_file_path));
 	}
 	
-	function extractFeatures ($param_string = null) {
+	public function extractFeatures ($param_string = null) {
 		if ($param_string === null) {
 			$param_string = "-m -k 0.97 -p19 -n 24 -r 22 -e -D -A -F PCM16";
 		}
@@ -75,19 +81,26 @@ class AlizePHP {
 		$command = $this->getBinPath() . "sfbcep " . $param_string . " ".$audio_file." ".$feaures_file;
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
-		if ($outvalues[0] != 0) throw new AlizePHPException($outvalues[2], $outvalues[0]);
 		return true;
 	}
 	
-	function normaliseEnergy($cfg_file_path = null) {
+	public function normaliseEnergy($cfg_file_path = null) {
 		if ($cfg_file_path === null) {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['normalise_energy'];
 		}
-		$input_feaures_file = $this->getFeauresFilePath().$this->speaker.$this->conf['extensions']['raw_features'];
-		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$input_feaures_file." --featureFilesPath ".$this->getFeauresFilePath();
+		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$this->speaker." --featureFilesPath ".$this->getFeauresFilePath();
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
-		if ($outvalues[0] != 0) throw new AlizePHPException($outvalues[2], $outvalues[0]);
+		return true;
+	}
+	
+	public function DetectEnergy($cfg_file_path = null) {
+		if ($cfg_file_path === null) {
+			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['detect_energy'];
+		}
+		$command = $this->getBinPath()."EnergyDetector --config $cfg_file_path --inputFeatureFilename ".$this->speaker." --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath();
+		print "<p>$command</p>";
+		$outvalues = $this->executeCommand($command);
 		return true;
 	}
 	
