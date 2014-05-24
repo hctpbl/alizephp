@@ -12,11 +12,11 @@ class AlizePHP {
 	}
 	
 	public function getAudioFilePath() {
-		return $this->conf['base_dir'] . DIRECTORY_SEPARATOR . $this->conf['audio_dir'] . DIRECTORY_SEPARATOR . $this->speaker;
+		return $this->conf['base_dir'] . DIRECTORY_SEPARATOR . $this->conf['audio_dir'] . DIRECTORY_SEPARATOR . $this->speaker . ".pcm";
 	}
 	
 	public function getFeauresFilePath() {
-		return $this->conf['base_dir'] . DIRECTORY_SEPARATOR . $this->conf['features_dir'] . $this->speaker;
+		return $this->conf['base_dir'] . DIRECTORY_SEPARATOR . $this->conf['features_dir'] . DIRECTORY_SEPARATOR . $this->speaker . ".prm";
 	}
 	
 	function __construct($speaker, $audio_file_path) {
