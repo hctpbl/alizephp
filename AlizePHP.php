@@ -5,10 +5,10 @@ namespace alizephp;
 class AlizePHP {
 	
 	private $speaker;
-	private $conf;
+	private $conf require 'config/alizephp_conf.php';
 	
 	private function getConfig() {
-		$this->conf = require 'config/alizephp.php';
+		//$this->conf = require 'config/alizephp.php';
 	}
 	
 	public function getAudioFilePath() {
@@ -19,14 +19,15 @@ class AlizePHP {
 		return $this->conf['base_dir'] . DIRECTORY_SEPARATOR . $this->conf['features_dir'] . $this->speaker;
 	}
 	
-	function __construct($speaker, $audio_file) {
+	function __construct($speaker, $audio_file_path) {
 		$this->speaker = $speaker;
-		if (!$speaker) die ("Speaker required.");
-		file_put_contents("data/pcm/".$this->speaker.".pcm", file_get_contents($audio_file));
+		if (!$speaker) Throw new AlizePHPException("Speaker must be a nonempty value.");
+		file_put_contents("data/pcm/".$this->speaker.".pcm", file_get_contents($audio_file_path));
 	}
 	
-	function extractFeatures () {
-		$command = "sfbcep -m -k 0.97 -p19 -n 24 -r 22 -e -D -A -F PCM16 ".$this->getAudioFilePath()." ".$this->getFeauresPath();
+	function extractFeatures ($param_string = NULL) {
+		if ($param_string == NULL) $param_string = "-m -k 0.97 -p19 -n 24 -r 22 -e -D -A -F PCM16";
+		$command = "sfbcep " . $param_string . " ".$this->getAudioFilePath()." ".$this->getFeauresFilePath();
 		exec($command);
 		return fopen($this->getFeauresFilePath("r"));
 	}
