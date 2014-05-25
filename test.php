@@ -5,10 +5,11 @@ use alizephp\AlizePHPException;
 $audio_file = "xaaf.pcm";
 $speakerrec = new AlizePHP("person", $audio_file);
 try {
-	$features_file = $speakerrec->extractFeatures();
-	//$speakerrec->detectEnergy();
+	$speakerrec->extractFeatures();
+	$speakerrec->normaliseEnergy();
+	$speakerrec->detectEnergy();
+	$speakerrec->normaliseFeatures();
 	$speakerrec->ivExtractor();
-	//$speakerrec->detectEnergy();
 } catch (Exception $e) {
 	print $e->getMessage();
 	print $e->getCode();
