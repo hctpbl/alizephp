@@ -6,9 +6,9 @@ $audio_file = "xaaf.pcm";
 $speakerrec = new AlizePHP("person", $audio_file);
 try {
 	$features_file = $speakerrec->extractFeatures();
-	$speakerrec->detectEnergy();
-	$speakerrec->normaliseEnergy();
-	$speakerrec->detectEnergy();
+	//$speakerrec->detectEnergy();
+	$speakerrec->ivExtractor();
+	//$speakerrec->detectEnergy();
 } catch (Exception $e) {
 	print $e->getMessage();
 	print $e->getCode();

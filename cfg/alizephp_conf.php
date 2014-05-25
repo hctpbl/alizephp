@@ -6,10 +6,15 @@
 		'audio_dir' => 'pcm' . DIRECTORY_SEPARATOR,
 		'features_dir' => 'prm' . DIRECTORY_SEPARATOR,
 		'labels_dir' => 'lbl' . DIRECTORY_SEPARATOR,
+		'mixture_files_path' => 'gmm' . DIRECTORY_SEPARATOR,
+		'matrix_files_path' => 'mat' . DIRECTORY_SEPARATOR,
+		'vector_files_path' => 'iv' . DIRECTORY_SEPARATOR,
+		'ndx_dir' => 'ndx' . DIRECTORY_SEPARATOR,
 		'cfg_files' => array (
 				'normalise_energy' => 'NormFeat_energy_SPro.cfg',
 				'detect_energy' => 'EnergyDetector_SPro.cfg',
-				'normalise_feaures' => 'NormFeat_SPro.cfg'
+				'normalise_feaures' => 'NormFeat_SPro.cfg',
+				'iv_extractor' => 'ivExtractor_fast.cfg'
 			),
 		'extensions' => array(
 				'audio' => '.pcm',

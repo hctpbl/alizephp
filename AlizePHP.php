@@ -64,6 +64,18 @@ class AlizePHP {
 	public function getLabelsFilePath() {
 		return $this->getBaseDataDir() . $this->conf['labels_dir'] ;
 	}
+	public function getMixtureFilesPath() {
+		return $this->conf['mixture_files_path'];
+	}
+	public function getMatrixFilesPath() {
+		return $this->conf['matrix_files_path'];
+	}
+	public function getVectorFilesPath() {
+		return $this->conf['vector_files_path'];
+	}
+	public function getIvExtractorFileName() {
+		return $this->conf['ndx_dir']."IvExtractor_".$this->speaker.".ndx";
+	}
 	
 	public function __construct($speaker, $audio_file_path) {
 		$this->getConfig();
@@ -88,7 +100,8 @@ class AlizePHP {
 		if ($cfg_file_path === null) {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['normalise_energy'];
 		}
-		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$this->speaker." --featureFilesPath ".$this->getFeauresFilePath();
+		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$this->speaker.
+					" --featureFilesPath ".$this->getFeauresFilePath();
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
 		return true;
@@ -98,7 +111,8 @@ class AlizePHP {
 		if ($cfg_file_path === null) {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['detect_energy'];
 		}
-		$command = $this->getBinPath()."EnergyDetector --config $cfg_file_path --inputFeatureFilename ".$this->speaker." --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath();
+		$command = $this->getBinPath()."EnergyDetector --config $cfg_file_path --inputFeatureFilename ".$this->speaker.
+					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath();
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
 		return true;
@@ -108,7 +122,30 @@ class AlizePHP {
 		if ($cfg_file_path === null) {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['normalise_features'];
 		}
-		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$this->speaker." --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath();
+		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$this->speaker.
+					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath();
+		print "<p>$command</p>";
+		$outvalues = $this->executeCommand($command);
+		return true;
+	}
+	
+	private function createIvExtractorFile() {
+		$ivExtractFile = fopen($this->getIvExtractorFileName(), "w");
+		fputs($ivExtractFile, $this->speaker." ".$this->speaker);
+		fclose($ivExtractFile);
+	}
+	
+	public function ivExtractor($cfg_file_path = null) {
+		if ($cfg_file_path === null) {
+			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['iv_extractor'];
+		}
+		if (!file_exists($this->getIvExtractorFileName())) {
+			$this->createIvExtractorFile();
+		}
+		$command = $this->getBinPath()."IvExtractor --config $cfg_file_path --mixtureFilesPath ".$this->getMixtureFilesPath().
+					" --matrixFilesPath ".$this->getMatrixFilesPath()." --saveVectorFilesPath ".$this->getVectorFilesPath().
+					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath().
+					" --targetIdList ".$this->getIvExtractorFileName();
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
 		return true;
