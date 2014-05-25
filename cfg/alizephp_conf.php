@@ -13,7 +13,7 @@
 		'cfg_files' => array (
 				'normalise_energy' => 'NormFeat_energy_SPro.cfg',
 				'detect_energy' => 'EnergyDetector_SPro.cfg',
-				'normalise_feaures' => 'NormFeat_SPro.cfg',
+				'normalise_features' => 'NormFeat_SPro.cfg',
 				'iv_extractor' => 'ivExtractor_fast.cfg'
 			),
 		'extensions' => array(

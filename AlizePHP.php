@@ -118,7 +118,7 @@ class AlizePHP {
 		return true;
 	}
 	
-	public function normaliseFeaures($cfg_file_path = null) {
+	public function normaliseFeatures($cfg_file_path = null) {
 		if ($cfg_file_path === null) {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['normalise_features'];
 		}
