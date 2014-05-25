@@ -173,7 +173,7 @@ class AlizePHP {
 					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath().
 					" --targetIdList ".$this->getIvExtractorFileName();
 		if (!file_exists($this->getTrainModelFileName())) {
-			$this->createIvExtractorFile();
+			$this->createTrainModelFile();
 		}
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
