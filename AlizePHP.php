@@ -35,6 +35,10 @@ class AlizePHP {
 		// $outvalues[0] is return value
 		$outvalues[0] = proc_close($process);
 		
+		print "<p>$outvalues[0]</p>";
+		print "<p>$outvalues[1]</p>";
+		print "<p>$outvalues[2]</p>";
+		
 		if ($outvalues[0] != 0) throw new AlizePHPException($outvalues[2], $outvalues[0]);
 		
 		return $outvalues;
