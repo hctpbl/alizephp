@@ -91,7 +91,7 @@ class AlizePHP {
 		return $this->conf['ndx_dir']."trainModel_".$speaker.".ndx";
 	}
 	public function getNdxFileName() {
-		return $this->conf['ndx_dir']."ivTest_plda_target-seg_".$speaker.".ndx";
+		return $this->conf['ndx_dir']."ivTest_plda_target-seg_".$this->getSpeaker().".ndx";
 	}
 	
 	public function __construct($speaker, $audio_file_path) {
@@ -193,7 +193,7 @@ class AlizePHP {
 		if (!file_exists($this->getNdxFileName())) {
 			$this->createNdxFile();
 		}
-		$command = $this->getBinPath()."IvExtractor --config $cfg_file_path --loadVectorFilesPath ".$this->getVectorFilesPath().
+		$command = $this->getBinPath()."IvTest --config $cfg_file_path --loadVectorFilesPath ".$this->getVectorFilesPath().
 					" --testVectorFilesPath ".$this->getVectorFilesPath()." --matrixFilesPath ".$this->getMatrixFilesPath().
 					" --targetIdList ".$this->getTrainModelFileName($speaker_to_compare_to).
 					" --ndxFilename ".$this->getNdxFileName();
