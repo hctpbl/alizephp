@@ -14,7 +14,8 @@
 				'normalise_energy' => 'NormFeat_energy_SPro.cfg',
 				'detect_energy' => 'EnergyDetector_SPro.cfg',
 				'normalise_features' => 'NormFeat_SPro.cfg',
-				'iv_extractor' => 'ivExtractor_fast.cfg'
+				'iv_extractor' => 'ivExtractor_fast.cfg',
+				'iv_test' => 'ivTest_EFR_Mahalanobis.cfg'
 			),
 		'extensions' => array(
 				'audio' => '.pcm',

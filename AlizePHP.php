@@ -9,6 +9,10 @@ class AlizePHP {
 	private $speaker;
 	private $conf;
 	
+	public function getSpeaker() {
+		return $this->speaker;
+	}
+	
 	private function getConfig() {
 		$this->conf = require 'cfg/alizephp_conf.php';
 	}
@@ -78,22 +82,31 @@ class AlizePHP {
 		return $this->conf['vector_files_path'];
 	}
 	public function getIvExtractorFileName() {
-		return $this->conf['ndx_dir']."IvExtractor_".$this->speaker.".ndx";
+		return $this->conf['ndx_dir']."IvExtractor_".$this->getSpeaker().".ndx";
+	}
+	public function getTrainModelFileName($speaker = null) {
+		if ($speaker === null) {
+			$speaker = $this->getSpeaker();
+		}
+		return $this->conf['ndx_dir']."trainModel_".$speaker.".ndx";
+	}
+	public function getNdxFileName() {
+		return $this->conf['ndx_dir']."ivTest_plda_target-seg_".$speaker.".ndx";
 	}
 	
 	public function __construct($speaker, $audio_file_path) {
 		$this->getConfig();
 		$this->speaker = $speaker;
 		if (!$speaker) Throw new AlizePHPException("Speaker must be a nonempty value.");
-		file_put_contents("data/pcm/".$this->speaker.".pcm", file_get_contents($audio_file_path));
+		file_put_contents("data/pcm/".$this->getSpeaker().".pcm", file_get_contents($audio_file_path));
 	}
 	
 	public function extractFeatures ($param_string = null) {
 		if ($param_string === null) {
 			$param_string = "-m -k 0.97 -p19 -n 24 -r 22 -e -D -A -F PCM16";
 		}
-		$audio_file = $this->getAudioFilePath().$this->speaker.$this->conf['extensions']['audio'];
-		$feaures_file = $this->getFeauresFilePath().$this->speaker.$this->conf['extensions']['raw_features'];
+		$audio_file = $this->getAudioFilePath().$this->getSpeaker().$this->conf['extensions']['audio'];
+		$feaures_file = $this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['raw_features'];
 		$command = $this->getBinPath() . "sfbcep " . $param_string . " ".$audio_file." ".$feaures_file;
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
@@ -104,7 +117,7 @@ class AlizePHP {
 		if ($cfg_file_path === null) {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['normalise_energy'];
 		}
-		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$this->speaker.
+		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$this->getSpeaker().
 					" --featureFilesPath ".$this->getFeauresFilePath();
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
@@ -115,7 +128,10 @@ class AlizePHP {
 		if ($cfg_file_path === null) {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['detect_energy'];
 		}
-		$command = $this->getBinPath()."EnergyDetector --config $cfg_file_path --inputFeatureFilename ".$this->speaker.
+		if (file_exists($this->getLabelsFilePath().$this->getSpeaker().".lbl")) {
+			unlink($this->getLabelsFilePath().DIRECTORY_SEPARATOR.$this->getSpeaker().".lbl");
+		}
+		$command = $this->getBinPath()."EnergyDetector --config $cfg_file_path --inputFeatureFilename ".$this->getSpeaker().
 					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath();
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
@@ -126,7 +142,7 @@ class AlizePHP {
 		if ($cfg_file_path === null) {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['normalise_features'];
 		}
-		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$this->speaker.
+		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$this->getSpeaker().
 					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath();
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
@@ -135,8 +151,14 @@ class AlizePHP {
 	
 	private function createIvExtractorFile() {
 		$ivExtractFile = fopen($this->getIvExtractorFileName(), "w");
-		fputs($ivExtractFile, $this->speaker." ".$this->speaker);
+		fputs($ivExtractFile, $this->getSpeaker()." ".$this->getSpeaker());
 		fclose($ivExtractFile);
+	}
+	
+	private function createTrainModelFile() {
+		$trainWorldFile = fopen($this->getTrainModelFileName(), "w");
+		fputs($trainWorldFile, "spk01 ".$this->getSpeaker());
+		fclose($trainWorldFile);
 	}
 	
 	public function ivExtractor($cfg_file_path = null) {
@@ -150,6 +172,31 @@ class AlizePHP {
 					" --matrixFilesPath ".$this->getMatrixFilesPath()." --saveVectorFilesPath ".$this->getVectorFilesPath().
 					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath().
 					" --targetIdList ".$this->getIvExtractorFileName();
+		if (!file_exists($this->getTrainModelFileName())) {
+			$this->createIvExtractorFile();
+		}
+		print "<p>$command</p>";
+		$outvalues = $this->executeCommand($command);
+		return true;
+	}
+	
+	private function createNdxFile() {
+		$ndxFile = fopen($this->getNdxFileName(), "w");
+		fputs($ndxFile, $this->getSpeaker(). " spk01");
+		fclose($ndxFile);
+	}
+	
+	public function ivTest($speaker_to_compare_to, $cfg_file_path = null) {
+		if ($cfg_file_path === null) {
+			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['iv_test'];
+		}
+		if (!file_exists($this->getNdxFileName())) {
+			$this->createNdxFile();
+		}
+		$command = $this->getBinPath()."IvExtractor --config $cfg_file_path --loadVectorFilesPath ".$this->getVectorFilesPath().
+					" --testVectorFilesPath ".$this->getVectorFilesPath()." --matrixFilesPath ".$this->getMatrixFilesPath().
+					" --targetIdList ".$this->getTrainModelFileName($speaker_to_compare_to).
+					" --ndxFilename ".$this->getNdxFileName();
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
 		return true;
