@@ -10,6 +10,7 @@
 		'matrix_files_path' => 'mat' . DIRECTORY_SEPARATOR,
 		'vector_files_path' => 'iv' . DIRECTORY_SEPARATOR,
 		'ndx_dir' => 'ndx' . DIRECTORY_SEPARATOR,
+		'results_dir' => 'res' . DIRECTORY_SEPARATOR,
 		'cfg_files' => array (
 				'normalise_energy' => 'NormFeat_energy_SPro.cfg',
 				'detect_energy' => 'EnergyDetector_SPro.cfg',

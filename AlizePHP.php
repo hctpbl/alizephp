@@ -81,20 +81,26 @@ class AlizePHP {
 	public function getVectorFilesPath() {
 		return $this->conf['vector_files_path'];
 	}
+	public function getNdxFilesPath() {
+		return $this->conf['ndx_dir'];
+	}
+	public function getResultFilesPath() {
+		return $this->conf['results_dir'];
+	}
 	public function getIvExtractorFileName() {
-		return $this->conf['ndx_dir']."IvExtractor_".$this->getSpeaker().".ndx";
+		return $this->getNdxFilesPath()."IvExtractor_".$this->getSpeaker().$this->conf['extensions']['ndx_files'];
 	}
 	public function getAudioFileName() {
 		return $this->getAudioFilePath().$this->getSpeaker().$this->conf['extensions']['audio'];
 	}
 	public function getRawFeaturesFileName() {
-		$this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['raw_features'];
+		return $this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['raw_features'];
 	}
 	public function getNormalisedEnergyFileName() {
-		$this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['normalised_energy'];
+		return $this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['normalised_energy'];
 	}
 	public function getNormalisedFeaturesFileName() {
-		$this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['normalised_features'];
+		return $this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['normalised_features'];
 	}
 	public function getLabelFileName() {
 		return $this->getLabelsFilePath().$this->getSpeaker().$this->conf['extensions']['label'];
@@ -106,10 +112,13 @@ class AlizePHP {
 		if ($speaker === null) {
 			$speaker = $this->getSpeaker();
 		}
-		return $this->conf['ndx_dir']."trainModel_".$speaker.$this->conf['extensions']['ndx_files'];
+		return $this->getNdxFilesPath()."trainModel_".$speaker.$this->conf['extensions']['ndx_files'];
 	}
 	public function getNdxFileName() {
-		return $this->conf['ndx_dir']."ivTest_plda_target-seg_".$this->getSpeaker().$this->conf['extensions']['ndx_files'];
+		return $this->getNdxFilesPath()."ivTest_plda_target-seg_".$this->getSpeaker().$this->conf['extensions']['ndx_files'];
+	}
+	public function getResultsFileName() {
+		return $this->getResultFilesPath()."scores_".$this->getSpeaker();
 	}
 	
 	public function __construct($speaker, $audio_file_path) {
@@ -201,7 +210,8 @@ class AlizePHP {
 					" --saveMixtureFileExtension ".$this->conf['extensions']['mixture'].
 					" --loadMatrixFilesExtension ".$this->conf['extensions']['matrix'].
 					" --saveMatrixFilesExtension ".$this->conf['extensions']['matrix'].
-					" --vectorFilesEtension ".$this->conf['extensions']['vector'];
+					" --vectorFilesEtension ".$this->conf['extensions']['vector'].
+					" --outputFileName ";
 		if (!file_exists($this->getTrainModelFileName())) {
 			$this->createTrainModelFile();
 		}
@@ -236,24 +246,49 @@ class AlizePHP {
 	}
 	
 	public function cleanUserFiles() {
-		$audio_file = $this->getAudioFileName();
-		print "<p>$audio_file</p>";
-		unlink($audio_file);
+		//$audio_file = $this->getAudioFileName();
+		//print "<p>$audio_file</p>";
+		//unlink($audio_file);
+		
 		$feaures_file = $this->getRawFeaturesFileName();
-		print "<p>$feaures_file</p>";
-		unlink($feaures_file);
+		if (file_exists($feaures_file)) {
+			unlink($feaures_file);
+		}
+		
 		$normalised_energy_file = $this->getNormalisedEnergyFileName();
-		print "<p>$normalised_energy_file</p>";
-		unlink($normalised_energy_file);
+		if (file_exists($normalised_energy_file)) {
+			unlink($normalised_energy_file);
+		}
+		
 		$normalised_features_file = $this->getNormalisedFeaturesFileName();
-		print "<p>$normalised_features_file</p>";
-		unlink($normalised_features_file);
+		if (file_exists($normalised_features_file)) {
+			unlink($normalised_features_file);
+		}
+		
 		$vector_file = $this->getVectorFileName();
-		print "<p>$vector_file</p>";
-		unlink($vector_file);
+		if (file_exists($vector_file)) {
+			unlink($vector_file);
+		}
+		
+		$iv_extractor = $this->getIvExtractorFileName();
+		if (file_exists($iv_extractor)) {
+			unlink($iv_extractor);
+		}
+		
+		$train_model = $this->getTrainModelFileName();
+		if (file_exists($train_model)) {
+			unlink($train_model);
+		}
+		
 		$ndx_file = $this->getNdxFileName();
-		print "<p>$ndx_file</p>";
-		unlink($ndx_file);
+		if (file_exists($ndx_file)) {
+			unlink($ndx_file);
+		}
+		
+		$results_file = $this->getResultsFileName();
+		if (file_exists($results_file)) {
+			unlink($results_file);
+		}
 	}
 	
 }
