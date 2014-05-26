@@ -13,7 +13,7 @@
 		'cfg_files' => array (
 				'normalise_energy' => 'NormFeat_energy_SPro.cfg',
 				'detect_energy' => 'EnergyDetector_SPro.cfg',
-				'normalised_features' => 'NormFeat_SPro.cfg',
+				'normalise_features' => 'NormFeat_SPro.cfg',
 				'iv_extractor' => 'ivExtractor_fast.cfg',
 				'iv_test' => 'ivTest_EFR_Mahalanobis.cfg'
 			),
@@ -21,7 +21,7 @@
 				'audio' => '.pcm',
 				'raw_features' => '.tmp.prm',
 				'normalised_energy' => '.enr.tmp.prm',
-				'normalised_feaures' => '.norm.prm',
+				'normalised_features' => '.norm.prm',
 				'label' => '.lbl',
 				'ndx_files' => '.ndx',
 				'mixture' => '.gmm',

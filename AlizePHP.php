@@ -217,4 +217,11 @@ class AlizePHP {
 		return true;
 	}
 	
+	public function cleanUserFiles() {
+		$audio_file = $this->getAudioFilePath().$this->getSpeaker().$this->conf['extensions']['audio'];
+		unlink($audio_file);
+		$feaures_file = $this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['raw_features'];
+		unlink($feaures_file);
+	}
+	
 }
