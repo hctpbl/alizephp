@@ -183,7 +183,7 @@ class AlizePHP {
 					" --saveMixtureFileExtension ".$this->conf['extensions']['mixture'].
 					" --loadMatrixFilesExtension ".$this->conf['extensions']['matrix'].
 					" --saveMatrixFilesExtension ".$this->conf['extensions']['matrix'].
-					" --vectorFilesException ".$this->conf['extensions']['vector'];
+					" --vectorFilesEtension ".$this->conf['extensions']['vector'];
 		if (!file_exists($this->getTrainModelFileName())) {
 			$this->createTrainModelFile();
 		}
@@ -211,7 +211,7 @@ class AlizePHP {
 					" --ndxFilename ".$this->getNdxFileName().
 					" --loadMatrixFilesExtension ".$this->conf['extensions']['matrix'].
 					" --saveMatrixFilesExtension ".$this->conf['extensions']['matrix'].
-					" --LoadVectorFilesException ".$this->conf['extensions']['vector'];
+					" --LoadVectorFilesExtension ".$this->conf['extensions']['vector'];
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
 		return true;
