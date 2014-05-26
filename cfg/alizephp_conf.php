@@ -20,7 +20,12 @@
 		'extensions' => array(
 				'audio' => '.pcm',
 				'raw_features' => '.tmp.prm',
-				'normalised_features' => '.enr.tmp.prm',
-				'label' => '.lbl'
+				'normalised_energy' => '.enr.tmp.prm',
+				'normalised_feaures' => '.norm.prm',
+				'label' => '.lbl',
+				'ndx_files' => '.ndx',
+				'mixture' => '.gmm',
+				'matrix' => '.matx',
+				'vector' => '.y'
 			)
 	);

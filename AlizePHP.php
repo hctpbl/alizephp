@@ -88,10 +88,10 @@ class AlizePHP {
 		if ($speaker === null) {
 			$speaker = $this->getSpeaker();
 		}
-		return $this->conf['ndx_dir']."trainModel_".$speaker.".ndx";
+		return $this->conf['ndx_dir']."trainModel_".$speaker.$this->conf['extensions']['ndx_files'];
 	}
 	public function getNdxFileName() {
-		return $this->conf['ndx_dir']."ivTest_plda_target-seg_".$this->getSpeaker().".ndx";
+		return $this->conf['ndx_dir']."ivTest_plda_target-seg_".$this->getSpeaker().$this->conf['extensions']['ndx_files'];
 	}
 	
 	public function __construct($speaker, $audio_file_path) {
@@ -118,7 +118,9 @@ class AlizePHP {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['normalise_energy'];
 		}
 		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$this->getSpeaker().
-					" --featureFilesPath ".$this->getFeauresFilePath();
+					" --featureFilesPath ".$this->getFeauresFilePath().
+					" --loadFeatureFileExtension ".$this->conf['extensions']['raw_features'].
+					" --saveFeatureFileExtension ".$this->conf['extensions']['normalised_energy'];
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
 		return true;
@@ -132,7 +134,9 @@ class AlizePHP {
 			unlink($this->getLabelsFilePath().DIRECTORY_SEPARATOR.$this->getSpeaker().".lbl");
 		}
 		$command = $this->getBinPath()."EnergyDetector --config $cfg_file_path --inputFeatureFilename ".$this->getSpeaker().
-					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath();
+					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath().
+					" --loadFeatureFileExtension ".$this->conf['extensions']['normalised_energy'].
+					" --saveLabelFileExtension ".$this->conf['extensions']['label'];
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
 		return true;
@@ -143,7 +147,9 @@ class AlizePHP {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['normalise_features'];
 		}
 		$command = $this->getBinPath()."NormFeat --config $cfg_file_path --inputFeatureFilename ".$this->getSpeaker().
-					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath();
+					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath().
+					" --loadFeatureFileExtension ".$this->conf['extensions']['raw_features'].
+					" --saveFeatureFileExtension ".$this->conf['extensions']['normalised_features'];
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
 		return true;
@@ -171,7 +177,13 @@ class AlizePHP {
 		$command = $this->getBinPath()."IvExtractor --config $cfg_file_path --mixtureFilesPath ".$this->getMixtureFilesPath().
 					" --matrixFilesPath ".$this->getMatrixFilesPath()." --saveVectorFilesPath ".$this->getVectorFilesPath().
 					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath().
-					" --targetIdList ".$this->getIvExtractorFileName();
+					" --targetIdList ".$this->getIvExtractorFileName().
+					" --loadFeatureFileExtension ".$this->conf['extensions']['normalised_features'].
+					" --loadMixtureFileExtension ".$this->conf['extensions']['mixture'].
+					" --saveMixtureFileExtension ".$this->conf['extensions']['mixture'].
+					" --loadMatrixFilesExtension ".$this->conf['extensions']['matrix'].
+					" --saveMatrixFilesExtension ".$this->conf['extensions']['matrix'].
+					" --vectorFilesException ".$this->conf['extensions']['vector'];
 		if (!file_exists($this->getTrainModelFileName())) {
 			$this->createTrainModelFile();
 		}
@@ -196,7 +208,10 @@ class AlizePHP {
 		$command = $this->getBinPath()."IvTest --config $cfg_file_path --loadVectorFilesPath ".$this->getVectorFilesPath().
 					" --testVectorFilesPath ".$this->getVectorFilesPath()." --matrixFilesPath ".$this->getMatrixFilesPath().
 					" --targetIdList ".$this->getTrainModelFileName($speaker_to_compare_to).
-					" --ndxFilename ".$this->getNdxFileName();
+					" --ndxFilename ".$this->getNdxFileName().
+					" --loadMatrixFilesExtension ".$this->conf['extensions']['matrix'].
+					" --saveMatrixFilesExtension ".$this->conf['extensions']['matrix'].
+					" --LoadVectorFilesException ".$this->conf['extensions']['vector'];
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
 		return true;
