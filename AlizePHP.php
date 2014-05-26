@@ -84,6 +84,24 @@ class AlizePHP {
 	public function getIvExtractorFileName() {
 		return $this->conf['ndx_dir']."IvExtractor_".$this->getSpeaker().".ndx";
 	}
+	public function getAudioFileName() {
+		return $this->getAudioFilePath().$this->getSpeaker().$this->conf['extensions']['audio'];
+	}
+	public function getRawFeaturesFileName() {
+		$this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['raw_features'];
+	}
+	public function getNormalisedEnergyFileName() {
+		$this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['normalised_energy'];
+	}
+	public function getNormalisedFeaturesFileName() {
+		$this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['normalised_features'];
+	}
+	public function getLabelFileName() {
+		return $this->getLabelsFilePath().$this->getSpeaker().$this->conf['extensions']['label'];
+	}
+	public function getVectorFileName(){
+		return $this->getVectorFilesPath().$this->getSpeaker().$this->conf['extensions']['vector'];
+	}
 	public function getTrainModelFileName($speaker = null) {
 		if ($speaker === null) {
 			$speaker = $this->getSpeaker();
@@ -105,8 +123,8 @@ class AlizePHP {
 		if ($param_string === null) {
 			$param_string = "-m -k 0.97 -p19 -n 24 -r 22 -e -D -A -F PCM16";
 		}
-		$audio_file = $this->getAudioFilePath().$this->getSpeaker().$this->conf['extensions']['audio'];
-		$feaures_file = $this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['raw_features'];
+		$audio_file = $this->getAudioFileName();
+		$feaures_file = $this->getRawFeaturesFileName();
 		$command = $this->getBinPath() . "sfbcep " . $param_string . " ".$audio_file." ".$feaures_file;
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
@@ -130,8 +148,8 @@ class AlizePHP {
 		if ($cfg_file_path === null) {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['detect_energy'];
 		}
-		if (file_exists($this->getLabelsFilePath().$this->getSpeaker().".lbl")) {
-			unlink($this->getLabelsFilePath().DIRECTORY_SEPARATOR.$this->getSpeaker().".lbl");
+		if ($this->getLabelFileName()) {
+			unlink($this->getLabelFileName());
 		}
 		$command = $this->getBinPath()."EnergyDetector --config $cfg_file_path --inputFeatureFilename ".$this->getSpeaker().
 					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath().
@@ -211,17 +229,31 @@ class AlizePHP {
 					" --ndxFilename ".$this->getNdxFileName().
 					" --loadMatrixFilesExtension ".$this->conf['extensions']['matrix'].
 					" --saveMatrixFilesExtension ".$this->conf['extensions']['matrix'].
-					" --LoadVectorFilesExtension ".$this->conf['extensions']['vector'];
+					" --loadVectorFilesExtension ".$this->conf['extensions']['vector'];
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
 		return true;
 	}
 	
 	public function cleanUserFiles() {
-		$audio_file = $this->getAudioFilePath().$this->getSpeaker().$this->conf['extensions']['audio'];
+		$audio_file = $this->getAudioFileName();
+		print "<p>$audio_file</p>";
 		unlink($audio_file);
-		$feaures_file = $this->getFeauresFilePath().$this->getSpeaker().$this->conf['extensions']['raw_features'];
+		$feaures_file = $this->getRawFeaturesFileName();
+		print "<p>$feaures_file</p>";
 		unlink($feaures_file);
+		$normalised_energy_file = $this->getNormalisedEnergyFileName();
+		print "<p>$normalised_energy_file</p>";
+		unlink($normalised_energy_file);
+		$normalised_features_file = $this->getNormalisedFeaturesFileName();
+		print "<p>$normalised_features_file</p>";
+		unlink($normalised_features_file);
+		$vector_file = $this->getVectorFileName();
+		print "<p>$vector_file</p>";
+		unlink($vector_file);
+		$ndx_file = $this->getNdxFileName();
+		print "<p>$ndx_file</p>";
+		unlink($ndx_file);
 	}
 	
 }
