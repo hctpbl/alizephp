@@ -239,7 +239,8 @@ class AlizePHP {
 					" --ndxFilename ".$this->getNdxFileName().
 					" --loadMatrixFilesExtension ".$this->conf['extensions']['matrix'].
 					" --saveMatrixFilesExtension ".$this->conf['extensions']['matrix'].
-					" --loadVectorFilesExtension ".$this->conf['extensions']['vector'];
+					" --loadVectorFilesExtension ".$this->conf['extensions']['vector'].
+					" --outputFilename ".$this->getResultsFileName();
 		print "<p>$command</p>";
 		$outvalues = $this->executeCommand($command);
 		return true;
