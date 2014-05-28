@@ -7,8 +7,12 @@ require 'AlizePHPException.php';
 class AlizePHP {
 	
 	private $speaker;
+	private $original_audio_file;
 	private $conf;
 	
+	/**
+	 * Returns speaker name
+	 */
 	public function getSpeaker() {
 		return $this->speaker;
 	}
@@ -118,17 +122,19 @@ class AlizePHP {
 		return $this->getNdxFilesPath()."ivTest_plda_target-seg_".$this->getSpeaker().$this->conf['extensions']['ndx_files'];
 	}
 	public function getResultsFileName() {
-		return $this->getResultFilesPath()."scores_".$this->getSpeaker();
+		return $this->getResultFilesPath()."scores_".$this->getSpeaker().".txt";
 	}
 	
 	public function __construct($speaker, $audio_file_path) {
 		$this->getConfig();
-		$this->speaker = $speaker;
 		if (!$speaker) Throw new AlizePHPException("Speaker must be a nonempty value.");
-		file_put_contents("data/pcm/".$this->getSpeaker().".pcm", file_get_contents($audio_file_path));
+		if (!file_exists($audio_file_path)) throw new AlizePHPException("Audio file not existing.");
+		$this->speaker = $speaker;
+		$this->original_audio_file = $audio_file_path;
 	}
 	
 	public function extractFeatures ($param_string = null) {
+		file_put_contents("data/pcm/".$this->getSpeaker().".pcm", file_get_contents($this->original_audio_file));
 		if ($param_string === null) {
 			$param_string = "-m -k 0.97 -p19 -n 24 -r 22 -e -D -A -F PCM16";
 		}
@@ -211,7 +217,7 @@ class AlizePHP {
 					" --loadMatrixFilesExtension ".$this->conf['extensions']['matrix'].
 					" --saveMatrixFilesExtension ".$this->conf['extensions']['matrix'].
 					" --vectorFilesEtension ".$this->conf['extensions']['vector'].
-					" --outputFileName ";
+					" --outputFileName ".$this->getResultsFileName();
 		if (!file_exists($this->getTrainModelFileName())) {
 			$this->createTrainModelFile();
 		}
@@ -247,9 +253,10 @@ class AlizePHP {
 	}
 	
 	public function cleanUserFiles() {
-		//$audio_file = $this->getAudioFileName();
-		//print "<p>$audio_file</p>";
-		//unlink($audio_file);
+		$audio_file = $this->getAudioFileName();
+		if (file_exists($audio_file)) {
+			unlink($audio_file);
+		}
 		
 		$feaures_file = $this->getRawFeaturesFileName();
 		if (file_exists($feaures_file)) {
