@@ -252,22 +252,26 @@ class AlizePHP {
 		return true;
 	}
 	
-	private function deletefe_file($file_path) {
+	private function deletefeFile($file_path) {
 		if (file_exists($file_path)) {
 			unlink($file_path);
 		}
 	}
 	
 	public function cleanUserFiles() {
-		$this->deletefe_file($this->getAudioFileName());
-		$this->deletefe_file($this->getRawFeaturesFileName());
-		$this->deletefe_file($this->getNormalisedEnergyFileName());
-		$this->deletefe_file($this->getNormalisedFeaturesFileName());
-		$this->deletefe_file($this->getVectorFileName());
-		$this->deletefe_file($this->getIvExtractorFileName());
-		$this->deletefe_file($this->getTrainModelFileName());
-		$this->deletefe_file($this->getNdxFileName());
-		$this->deletefe_file($this->getResultsFileName());
+		$this->deletefeFile($this->getAudioFileName());
+		$this->deletefeFile($this->getRawFeaturesFileName());
+		$this->deletefeFile($this->getNormalisedEnergyFileName());
+		$this->deletefeFile($this->getNormalisedFeaturesFileName());
+		$this->deletefeFile($this->getVectorFileName());
+		$this->deletefeFile($this->getIvExtractorFileName());
+		$this->deletefeFile($this->getTrainModelFileName());
+		$this->deletefeFile($this->getNdxFileName());
+		$this->deletefeFile($this->getResultsFileName());
+	}
+	
+	public function hasVector() {
+		return file_exists($this->getVectorFileName());
 	}
 	
 }
