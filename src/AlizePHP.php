@@ -314,6 +314,14 @@ class AlizePHP {
 	}
 	
 	/**
+	 * Returns full path to Background ndx file
+	 * @return string
+	 */
+	private function getBackgroundNdxFileName() {
+		return $this->getNdxFilesPath()."ivNorm".$this->conf['extensions']['ndx_files'];
+	}
+	
+	/**
 	 * Returns full path to ivTest score file. Filename will be scores_(speaker)
 	 * and extension will be txt
 	 * @return string
@@ -576,7 +584,8 @@ class AlizePHP {
 					" --loadMatrixFilesExtension ".$this->conf['extensions']['matrix'].
 					" --saveMatrixFilesExtension ".$this->conf['extensions']['matrix'].
 					" --loadVectorFilesExtension ".$this->conf['extensions']['vector'].
-					" --outputFilename ".$this->getResultsFileName();
+					" --outputFilename ".$this->getResultsFileName().
+					" --backgroundNdxFilename ".$this->getBackgroundNdxFileName();
 		$outvalues = $this->executeCommand($command);
 		if (!file_exists($this->getResultsFileName()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);

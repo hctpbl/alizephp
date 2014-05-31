@@ -10,7 +10,7 @@
 		'mixture_files_path' => "$installation_path/gmm/",
 		'matrix_files_path' => "$installation_path/mat/",
 		'vector_files_path' => "$installation_path/iv/",
-		'ndx_dir' => "$installation_path/ndx",
+		'ndx_dir' => "$installation_path/ndx/",
 		'results_dir' => "$installation_path/res/",
 		'cfg_files' => array (
 				'normalise_energy' => 'NormFeat_energy_SPro.cfg',
