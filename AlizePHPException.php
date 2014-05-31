@@ -59,7 +59,7 @@ class AlizePHPException extends \Exception {
 	 * @return string
 	 */
 	public function getStdOut() {
-		parent::getMessage();
+		return parent::getMessage();
 	}
 	
 	/**
