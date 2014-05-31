@@ -1,7 +1,8 @@
 <?php
-require 'AlizePHP.php';
+require ("src/AlizePHP.php");
+
 use alizephp\AlizePHP;
-use alizephp\AlizePHPException;
+
 $audio_file = "xaaf.pcm";
 
 $speakerrec = new AlizePHP("person", $audio_file);

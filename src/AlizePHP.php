@@ -2,7 +2,7 @@
 
 namespace alizephp;
 
-require 'AlizePHPException.php';
+require "src/AlizePHPException.php";
 
 /**
  * 
