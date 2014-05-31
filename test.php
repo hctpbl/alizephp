@@ -27,6 +27,5 @@ try {
 	$speakerrec2->ivExtractor();
 	$speakerrec2->ivTest("person");
 } catch (Exception $e) {
-	print $e->getMessage();
-	print $e->getCode();
+	print "<pre>".$e."</pre>";
 }

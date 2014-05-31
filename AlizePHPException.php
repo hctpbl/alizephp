@@ -33,6 +33,7 @@ class AlizePHPException extends \Exception {
 	 */
 	public function __construct($message=null,$command=null,$stderr=null,$code=null) {
 		$this->command = $command;
+		$this->stderr = $stderr;
 		parent::__construct($message,$code,null);
 	}
 	
@@ -59,5 +60,15 @@ class AlizePHPException extends \Exception {
 	 */
 	public function getStdOut() {
 		parent::getMessage();
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Exception::__toString()
+	 */
+	public function __toString() {
+		return "AlizePHPException\nMessage: ".$this->getStdOut().
+			"\nCommand: ".$this->getCommand().
+			"\nError output: ".$this->getStdErr();
 	}
 }
