@@ -1,5 +1,5 @@
 <?php
-require ("src/AlizePHP.php");
+require __DIR__.'/../src/AlizePHP.php';
 
 use alizephp\AlizePHP;
 

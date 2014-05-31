@@ -1,16 +1,17 @@
 <?php
+	$installation_path = __DIR__.'/..';
 	return array (
-		'base_bin_dir' => "bin" . DIRECTORY_SEPARATOR,
-		'base_data_dir' => 'data' . DIRECTORY_SEPARATOR,
-		'base_conf_dir' => 'cfg' . DIRECTORY_SEPARATOR,
-		'audio_dir' => 'pcm' . DIRECTORY_SEPARATOR,
-		'features_dir' => 'prm' . DIRECTORY_SEPARATOR,
-		'labels_dir' => 'lbl' . DIRECTORY_SEPARATOR,
-		'mixture_files_path' => 'gmm' . DIRECTORY_SEPARATOR,
-		'matrix_files_path' => 'mat' . DIRECTORY_SEPARATOR,
-		'vector_files_path' => 'iv' . DIRECTORY_SEPARATOR,
-		'ndx_dir' => 'ndx' . DIRECTORY_SEPARATOR,
-		'results_dir' => 'res' . DIRECTORY_SEPARATOR,
+		'base_bin_dir' => "$installation_path/bin/",
+		'base_data_dir' => "$installation_path/data/",
+		'base_conf_dir' => "$installation_path/cfg/",
+		'audio_dir' => "pcm/",
+		'features_dir' => "prm/",
+		'labels_dir' => "lbl/",
+		'mixture_files_path' => "$installation_path/gmm/",
+		'matrix_files_path' => "$installation_path/mat/",
+		'vector_files_path' => "$installation_path/iv/",
+		'ndx_dir' => "$installation_path/ndx",
+		'results_dir' => "$installation_path/res/",
 		'cfg_files' => array (
 				'normalise_energy' => 'NormFeat_energy_SPro.cfg',
 				'detect_energy' => 'EnergyDetector_SPro.cfg',

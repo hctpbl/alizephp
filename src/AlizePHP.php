@@ -2,7 +2,7 @@
 
 namespace alizephp;
 
-require "src/AlizePHPException.php";
+require __DIR__.'/AlizePHPException.php';
 
 /**
  * 
@@ -88,7 +88,7 @@ class AlizePHP {
 	 * Loads configuration options into conf array
 	 */
 	private function getConfig() {
-		$this->conf = require 'cfg/alizephp_conf.php';
+		$this->conf = require __DIR__.'/../cfg/alizephp_conf.php';
 	}
 	
 	/**
@@ -352,7 +352,7 @@ class AlizePHP {
 	public function extractFeatures ($param_string = null) {
 		if (!file_exists($this->getOriginalAudioFile()))
 			throw new AlizePHPException("Original audio file missing. Path: ".$audio_file_path);
-		file_put_contents("data/pcm/".$this->getSpeaker().".pcm", file_get_contents($this->original_audio_file));
+		file_put_contents($this->getAudioFileName(), file_get_contents($this->getOriginalAudioFile()));
 		if ($param_string === null) {
 			$param_string = "-m -k 0.97 -p19 -n 24 -r 22 -e -D -A -F PCM16";
 		}
