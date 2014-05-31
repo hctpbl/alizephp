@@ -4,6 +4,7 @@
     "keywords": ["alize", "speaker recognition", "biometric authentication", "biometry"],
     "homepage": "http://github.com/hctpbl/alizephp",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Héctor Pablos",
