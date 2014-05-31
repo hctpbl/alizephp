@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/alizephp.html">\alizephp</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">3</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1613023330"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1613023330" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-714250900"></a>
+                                <a href="../namespaces/alizephp.html" style="margin-left: 30px; padding-left: 0">alizephp</a>
+            </div>
+            <div id="namespace-714250900" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/alizephp.AlizePHP.html">AlizePHP</a></li>
+                                                    <li class="class"><a href="../classes/alizephp.AlizePHPException.html">AlizePHPException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/alizephp.html">\alizephp</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\alizephp</small>AlizePHP</h1>
+                    <p><em>AlizePHP is a php wrapper for Alize and LIA_RAL, an open source platform for biometrics authentification.</em></p>
+                    <p>This class aims to abstract AlizePHP's commands and files, providing a per-user set of methods,
+and allowing developers to extract audio features and i-vectors with ease.</p>
+<p>Alize and LIA_RAL are not part of this package and they must be downloaded and compiled in your
+machine. Once compiled, place the libraries and binaries generated in bin/ directory.
+It is STRONGLY advised to read documentation from Alize package as well as study the tutorials
+in order to understand what this package is doing and how to adapt it to your project.
+Anyway, a rough set of steps to create a user information in a sistem is to sequentially execute
+the following commands:</p>
+<p>1 - extractFeatures()
+2 - normaliseEnergy()
+3 - detectEnergy()
+4 - normaliseFeatures()
+5 - ivExtractor()</p>
+<p>Every method needs the output of the preceding one stored in your directory structure in order
+to properly work (you'll receive an AlizePHPException if that is not the case). Once the i-vector
+generated by ivExtractor() is present, you can use ivTest to verify if two users are the same
+person.</p>
+<p>A set of default configuration files and settings is also provided in cfg/ directory. These
+files have been created by Anthony Larcher (alarcher - at- i2r.a-star.edu.sg) as part of his
+Alize tutorials and, as he states, "The author does not give ANY waranty about the performance
+and the usability".</p>
+<p>You can change file extensions and directories to create your own directory structure.
+This may be useful if you want to use the files generated by Alize with another software.
+Settings file can be found in cfg/alizephp_conf.php.</p>
+<p>Alize has been created by:
+A. Larcher, J.-F. Bonastre, B. Fauve, K.A. Lee, C. Levy, H. Li, J.S.D. Mason, J.-Y Parfait,
+"ALIZE 3.0 - Open Source Toolkit for State-of-the-Art Speaker Recognition,"
+in Annual Conference of the International Speech Communication Association (Interspeech), 2013</p>
+<p>Alize website: <a href="http://alize.univ-avignon.fr/index_en.html">http://alize.univ-avignon.fr/index_en.html</a>
+Alize SVN: <a href="http://alize.univ-avignon.fr/svn/ALIZE/trunk/">http://alize.univ-avignon.fr/svn/ALIZE/trunk/</a>
+LIA_RAL SVN: <a href="http://alize.univ-avignon.fr/svn/LIA_RAL/trunk/">http://alize.univ-avignon.fr/svn/LIA_RAL/trunk/</a>
+Alize documentation (including Tutorials): <a href="http://alize.univ-avignon.fr/doc_en.html">http://alize.univ-avignon.fr/doc_en.html</a></p>
+
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getSpeaker" class="">getSpeaker()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getOriginalAudioFile" class="">getOriginalAudioFile()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getAudioFilePath" class="">getAudioFilePath()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getFeauresFilePath" class="">getFeauresFilePath()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getLabelsFilePath" class="">getLabelsFilePath()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getMixtureFilesPath" class="">getMixtureFilesPath()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getMatrixFilesPath" class="">getMatrixFilesPath()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getVectorFilesPath" class="">getVectorFilesPath()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getNdxFilesPath" class="">getNdxFilesPath()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getResultFilesPath" class="">getResultFilesPath()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getIvExtractorFileName" class="">getIvExtractorFileName()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getAudioFileName" class="">getAudioFileName()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getRawFeaturesFileName" class="">getRawFeaturesFileName()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getNormalisedEnergyFileName" class="">getNormalisedEnergyFileName()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getNormalisedFeaturesFileName" class="">getNormalisedFeaturesFileName()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getLabelFileName" class="">getLabelFileName()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getVectorFileName" class="">getVectorFileName()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getTrainModelFileName" class="">getTrainModelFileName()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getNdxFileName" class="">getNdxFileName()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getResultsFileName" class="">getResultsFileName()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_extractFeatures" class="">extractFeatures()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_normaliseEnergy" class="">normaliseEnergy()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_detectEnergy" class="">detectEnergy()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_normaliseFeatures" class="">normaliseFeatures()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_ivExtractor" class="">ivExtractor()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_ivTest" class="">ivTest()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_cleanUserFiles" class="">cleanUserFiles()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_hasVector" class="">hasVector()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No public properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No protected properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getConfig" class="">getConfig()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_executeCommand" class="">executeCommand()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getBinPath" class="">getBinPath()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getBaseDataDir" class="">getBaseDataDir()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getBaseConfigDir" class="">getBaseConfigDir()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_getBackgroundNdxFileName" class="">getBackgroundNdxFileName()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_createIvExtractorFile" class="">createIvExtractorFile()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_createTrainModelFile" class="">createTrainModelFile()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_createNdxFile" class="">createNdxFile()</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#method_deletefeFile" class="">deletefeFile()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/alizephp.AlizePHP.html#property_speaker" class="">$speaker</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#property_original_audio_file" class="">$original_audio_file</a><br />
+                                                                    <a href="../classes/alizephp.AlizePHP.html#property_conf" class="">$conf</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/AlizePHP.html"><div class="path-wrapper">AlizePHP.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper"></div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                    <div class="namespace-wrapper">\alizephp\AlizePHP</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                author
+                            </th>
+                            <td>
+                                                                    <p>Héctor Pablos</p>
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_speaker" name="property_speaker" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$speaker</h3>
+                <pre class="signature">$speaker : string</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; Speaker id. If it&#039;s a number, it will be cast to a string.                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_original_audio_file" name="property_original_audio_file" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$original_audio_file</h3>
+                <pre class="signature">$original_audio_file : string</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; Path to original audio file sample from the speaker                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_conf" name="property_conf" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$conf</h3>
+                <pre class="signature">$conf : array</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                &mdash; Array to hold every configuration option, as directory paths and extensions                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getSpeaker" name="method_getSpeaker" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getSpeaker()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getSpeaker() : string</pre>
+                <p><em>Returns speaker Id as a string</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getOriginalAudioFile" name="method_getOriginalAudioFile" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getOriginalAudioFile()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getOriginalAudioFile() : string</pre>
+                <p><em>Returs full path to the original audio file provided in the
+creation of the object</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getAudioFilePath" name="method_getAudioFilePath" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getAudioFilePath()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getAudioFilePath() : string</pre>
+                <p><em>Returns path of pcm audio files, where audio files of each speaker in pcm format should be placed.</em></p>
+                <p>Pcm audio files directory is located inside base data directory.
+Audio files path value can be set in "audio_dir" option of config file.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getFeauresFilePath" name="method_getFeauresFilePath" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getFeauresFilePath()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getFeauresFilePath() : string</pre>
+                <p><em>Returns path of feature files, where raw, energy and normalised features should be placed.</em></p>
+                <p>Feature files dir is located inside base data dir.
+Features files path value can be set in "audio_dir" option of config file.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getLabelsFilePath" name="method_getLabelsFilePath" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getLabelsFilePath()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getLabelsFilePath() : string</pre>
+                <p><em>Returns path of label files, where label files with energy detections should be placed.</em></p>
+                <p>Label files dir is located inside base data dir.
+Label files path value can be set in "labels_dir" option of config file.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getMixtureFilesPath" name="method_getMixtureFilesPath" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getMixtureFilesPath()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getMixtureFilesPath() : string</pre>
+                <p><em>Returns path of mixture files.</em></p>
+                <p>Mixture files path value can be set in "mixture_files_path" option of config file.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getMatrixFilesPath" name="method_getMatrixFilesPath" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getMatrixFilesPath()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getMatrixFilesPath() : string</pre>
+                <p><em>Returns path of matrix files.</em></p>
+                <p>Matrix files path value can be set in "matrix_files_path" option of config file.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getVectorFilesPath" name="method_getVectorFilesPath" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getVectorFilesPath()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getVectorFilesPath() : string</pre>
+                <p><em>Returns path of vector files.</em></p>
+                <p>Vector files path value can be set in "vector_files_path" option of config file.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getNdxFilesPath" name="method_getNdxFilesPath" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getNdxFilesPath()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getNdxFilesPath() : string</pre>
+                <p><em>Returns path of ndx files.</em></p>
+                <p>Ndx files path value can be set in "ndx_dir" option of config file.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getResultFilesPath" name="method_getResultFilesPath" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getResultFilesPath()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getResultFilesPath() : string</pre>
+                <p><em>Returns path of test result files.</em></p>
+                <p>Test result files path value can be set in "results_dir" option of config file.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getIvExtractorFileName" name="method_getIvExtractorFileName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getIvExtractorFileName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getIvExtractorFileName() : string</pre>
+                <p><em>Returns full path to IvExtractor file. Filename will be IvExtractor_(username)
+and extension can be set in extensions -&gt; ndx_files option</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getAudioFileName" name="method_getAudioFileName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getAudioFileName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getAudioFileName() : string</pre>
+                <p><em>Returns full path to audio file. Filename will be username
+and extension can be set in extensions -&gt; audio option</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getRawFeaturesFileName" name="method_getRawFeaturesFileName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getRawFeaturesFileName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getRawFeaturesFileName() : string</pre>
+                <p><em>Returns full path to raw features file. Filename will be username
+and extension can be set in extensions -&gt; raw_features option</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getNormalisedEnergyFileName" name="method_getNormalisedEnergyFileName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getNormalisedEnergyFileName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getNormalisedEnergyFileName() : string</pre>
+                <p><em>Returns full path to energy file. Filename will be username
+and extension can be set in extensions -&gt; normalised_energy option</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getNormalisedFeaturesFileName" name="method_getNormalisedFeaturesFileName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getNormalisedFeaturesFileName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getNormalisedFeaturesFileName() : string</pre>
+                <p><em>Returns full path to normalised features file. Filename will be username
+and extension can be set in extensions -&gt; normalised_features option</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getLabelFileName" name="method_getLabelFileName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getLabelFileName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getLabelFileName() : string</pre>
+                <p><em>Returns full path to label file. Filename will be username
+and extension can be set in extensions -&gt; label option</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getVectorFileName" name="method_getVectorFileName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getVectorFileName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getVectorFileName() : string</pre>
+                <p><em>Returns full path to vector file. Filename will be username
+and extension can be set in extensions -&gt; vector option</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTrainModelFileName" name="method_getTrainModelFileName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTrainModelFileName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTrainModelFileName( <span class="argument">$speaker</span>) : string</pre>
+                <p><em>Returns full path to train model file. Filename will be trainModel_(speaker)
+and extension can be set in extensions -&gt; ndx_files option</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$speaker </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getNdxFileName" name="method_getNdxFileName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getNdxFileName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getNdxFileName() : string</pre>
+                <p><em>Returns full path to user ndx file. Filename will be ivTest_plda_target-seg_(speaker)
+and extension can be set in extensions -&gt; ndx_files option</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getResultsFileName" name="method_getResultsFileName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getResultsFileName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getResultsFileName() : string</pre>
+                <p><em>Returns full path to ivTest score file. Filename will be scores_(speaker)
+and extension will be txt</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(string <span class="argument">$speaker</span>, string <span class="argument">$audio_file_path</span>)</pre>
+                <p><em>Creates an AlizePHP object</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$speaker </td>
+                                <td><p>User id of the speaker</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$audio_file_path </td>
+                                <td><p>Filepath to an audio file sample of user</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\alizephp\AlizePHPException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_extractFeatures" name="method_extractFeatures" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">extractFeatures()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">extractFeatures(string <span class="argument">$param_string</span>) : boolean</pre>
+                <p><em>Creates raw features file from audio provided in constructor and stores audio in alizephp
+directory structure.</em></p>
+                <p>If a param string for the sfbcep command is not provided, the default of
+"-m -k 0.97 -p19 -n 24 -r 22 -e -D -A -F PCM16" will be used.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$param_string </td>
+                                <td><p>OPTIONAL Parameter string for sfbcep command</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\alizephp\AlizePHPException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/alizephp.AlizePHP.html#method_getAudioFileName"><span class="namespace-wrapper">for the path of the audio file copied</span></a></dd>
+                                            <dd><a href="../classes/alizephp.AlizePHP.html#method_getRawFeaturesFileName"><span class="namespace-wrapper">for the path of the raw features filename</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_normaliseEnergy" name="method_normaliseEnergy" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">normaliseEnergy()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">normaliseEnergy(string <span class="argument">$cfg_file_path</span>) : boolean</pre>
+                <p><em>Creates normalised features file from raw features file created in extractFeatures method.</em></p>
+                <p>If a path to a config file is not provided "cfg_files"->"normalise_features" option in
+settings file sets the path of the config file that will be used.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$cfg_file_path </td>
+                                <td><p>OPTIONAL Path to a config file for Alize's NormFeat command</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\alizephp\AlizePHPException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/alizephp.AlizePHP.html#method_extractFeatures"><span class="namespace-wrapper">For the method to extract features needed</span></a></dd>
+                                            <dd><a href="../classes/alizephp.AlizePHP.html#method_getNormalisedEnergyFileName"><span class="namespace-wrapper">For the path of the normalised features
+file and generate this method&#039;s input
+generated by this method</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_detectEnergy" name="method_detectEnergy" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">detectEnergy()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">detectEnergy(string <span class="argument">$cfg_file_path</span>) : boolean</pre>
+                <p><em>Creates label file from normalised energy file created in normaliseEnergy method.</em></p>
+                <p>If a path to a config file is not provided "cfg_files"->"detect_energy" option in
+settings file sets the path of the config file that will be used.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$cfg_file_path </td>
+                                <td><p>OPTIONAL Path to a config file for Alize's EnergyDetector command</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\alizephp\AlizePHPException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/alizephp.AlizePHP.html#method_getLabelFileName"><span class="namespace-wrapper">For the path of the label file</span></a></dd>
+                                            <dd><a href="../classes/alizephp.AlizePHP.html#method_normaliseEnergy"><span class="namespace-wrapper">For the method to normalyse energy and generate this method&#039;s input</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_normaliseFeatures" name="method_normaliseFeatures" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">normaliseFeatures()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">normaliseFeatures(string <span class="argument">$cfg_file_path</span>) : boolean</pre>
+                <p><em>Creates a features file from raw features and label files created in extractFeatures
+and detectEnergy methods.</em></p>
+                <p>If a path to a config file is not provided "cfg_files"->"normalise_features" option in
+settings file sets the path of the config file that will be used.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$cfg_file_path </td>
+                                <td><p>OPTIONAL Path to a config file for Alize's NormFeat command</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\alizephp\AlizePHPException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/alizephp.AlizePHP.html#method_extractFeatures"><span class="namespace-wrapper">For the method to extract features and generate this method&#039;s input</span></a></dd>
+                                            <dd><a href="../classes/alizephp.AlizePHP.html#method_detectEnergy"><span class="namespace-wrapper">For the method to extract labels and generate this method&#039;s input</span></a></dd>
+                                            <dd><a href="../classes/alizephp.AlizePHP.html#method_getNormalisedFeaturesFileName"><span class="namespace-wrapper">For the path of the features file</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_ivExtractor" name="method_ivExtractor" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">ivExtractor()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">ivExtractor(string <span class="argument">$cfg_file_path</span>) : boolean</pre>
+                <p><em>Creates an i-vector representing the user&#039;s voice features. It needs the ouptu generated by
+the NormaliseFeatures and detectEnergy methods, as well as mixture (model) and matrix files,
+generated using ALIZE internal tools with multiple samples.</em></p>
+                <p>If a path to a config file is not provided "cfg_files"->"iv_extractor" option in
+settings file sets the path of the config file that will be used.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$cfg_file_path </td>
+                                <td><p>OPTIONAL Path to a config file for Alize's IvExtractor command</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\alizephp\AlizePHPException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="../classes/alizephp.AlizePHP.html#method_normaliseFeatures"><span class="namespace-wrapper">For the method to get normalised features and
+generate this method&#039;s input.</span></a></dd>
+                                            <dd><a href="../classes/alizephp.AlizePHP.html#method_detectEnergy"><span class="namespace-wrapper">For the method to get the label file and
+generate this method&#039;s input.</span></a></dd>
+                                            <dd><a href="../classes/alizephp.AlizePHP.html#method_getVectorFileName"><span class="namespace-wrapper">For the path of the vector file</span></a></dd>
+                                            <dd><a href="../classes/alizephp.AlizePHP.html#method_hasVector"><span class="namespace-wrapper">To test if a vector for this user has been created using this method</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_ivTest" name="method_ivTest" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">ivTest()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">ivTest(string <span class="argument">$speaker_to_compare_to</span>, string <span class="argument">$cfg_file_path</span>) : boolean</pre>
+                <p><em>Test if the speaker&#039;s object is the same person as speaker with ID of $speaker_to_compare_to.</em></p>
+                <p>Buth speakers must have their i-vectors created and stored in the directory structure.
+If a path to a config file is not provided "cfg_files"->"iv_extractor" option in
+settings file sets the path of the config file that will be used.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$speaker_to_compare_to </td>
+                                <td><p>ID of the speaker compared agains this objet's one</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$cfg_file_path </td>
+                                <td><p>OPTIONAL Path to a config file for Alize's IvTest command</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\alizephp\AlizePHPException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true if botk speakers are the same person, false if not</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_cleanUserFiles" name="method_cleanUserFiles" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">cleanUserFiles()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">cleanUserFiles() : bool</pre>
+                <p><em>Deletes every existing file associated to a user. It would be equivalent to cascade delete
+a user from a database.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    bool
+                                            &mdash; <p>true if the method ends correctly, false if not</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_hasVector" name="method_hasVector" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">hasVector()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">hasVector() : boolean</pre>
+                <p><em>Checks if a user&#039;s i-vector is present, so this user&#039;s identity can be tested against another</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>true if the i-vector for the user has been calculated, false otherwise</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getConfig" name="method_getConfig" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">getConfig()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getConfig()</pre>
+                <p><em>Loads configuration options into conf array</em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_executeCommand" name="method_executeCommand" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">executeCommand()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">executeCommand(string <span class="argument">$comm</span>) : string[]</pre>
+                <p><em>Executes a given command and returns stdout, stderr and return value</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$comm </td>
+                                <td><p>Command to execute</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\alizephp\AlizePHPException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    string[]
+                                            &mdash; <p>Array wit stdout, stderr and return value of the command, in
+indexes 0, 1 and 2 each</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getBinPath" name="method_getBinPath" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">getBinPath()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getBinPath() : string</pre>
+                <p><em>Returns path of bin directory, where binaries and libraries should be placed.</em></p>
+                <p>Bin path value can be set in "base_bin_dir" option of config file.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>Base bin path</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getBaseDataDir" name="method_getBaseDataDir" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">getBaseDataDir()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getBaseDataDir() : string</pre>
+                <p><em>Returns path of data directory, where pcm audio, features and labels should be placed.</em></p>
+                <p>Data path value can be set in "base_data_dir" option of config file.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>Base data dir</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getBaseConfigDir" name="method_getBaseConfigDir" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">getBaseConfigDir()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getBaseConfigDir() : string</pre>
+                <p><em>Returns path of configuration directory, where Alize and AlizePHP config files should be placed.</em></p>
+                <p>Config path value can be set in "base_conf_dir" option of config file.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>Base conf dir</p>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getBackgroundNdxFileName" name="method_getBackgroundNdxFileName" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">getBackgroundNdxFileName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getBackgroundNdxFileName() : string</pre>
+                <p><em>Returns full path to Background ndx file</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_createIvExtractorFile" name="method_createIvExtractorFile" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">createIvExtractorFile()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">createIvExtractorFile()</pre>
+                <p><em>Creates the iv extractor file needed to extract a user&#039;s i-vector</em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_createTrainModelFile" name="method_createTrainModelFile" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">createTrainModelFile()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">createTrainModelFile()</pre>
+                <p><em>Creates the train model file needed to extract a user&#039;s i-vector</em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_createNdxFile" name="method_createNdxFile" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">createNdxFile()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">createNdxFile()</pre>
+                <p><em>Creates an ndx file with comparison id cases. In our approach, it simply outputs actual user as spk01</em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_deletefeFile" name="method_deletefeFile" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">deletefeFile()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">deletefeFile(string <span class="argument">$file_path</span>)</pre>
+                <p><em>Checks if a file exists, and if so, deletes it</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$file_path </td>
+                                <td><p>Path to the file to delete</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">AlizePHP.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/AlizePHP.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/alizephp.html">\alizephp</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on May 31st, 2014 at 15:28.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>
