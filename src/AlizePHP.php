@@ -631,10 +631,16 @@ class AlizePHP {
 	
 	/**
 	 * Checks if a user's i-vector is present, so this user's identity can be tested against another
+	 * @param string $user Id of the user whose i-vector is searched
+	 * @throws AlizePHPException
 	 * @return boolean true if the i-vector for the user has been calculated, false otherwise
 	 */
-	public function hasVector() {
-		return file_exists($this->getVectorFileName());
+	public static function hasVector($user) {
+		if (!$user)
+			throw new AlizePHPException("A user Id must be provided in order to test i-vector existance.");
+		$conf = require __DIR__.'/../cfg/alizephp_conf.php';
+		$vector_file_path = $conf['vector_files_path'].$user.$conf['extensions']['vector'];
+		return file_exists($vector_file_path);
 	}
 	
 }
