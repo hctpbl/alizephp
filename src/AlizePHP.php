@@ -534,7 +534,7 @@ class AlizePHP {
 			throw new AlizePHPException("Unable to create train model. Path: ".$this->getTrainModelFileName());
 			
 		$outvalues = $this->executeCommand($command);
-		if (!$this->hasVector())
+		if (!$this->hasVector($this->getSpeaker()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
 		
 		return true;
