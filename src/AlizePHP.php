@@ -561,7 +561,7 @@ class AlizePHP {
 	 * @return boolean true if botk speakers are the same person, false if not
 	 */
 	public function ivTest($speaker_to_compare_to, $cfg_file_path = null) {
-		if (!$this->hasVector())
+		if (!$this->hasVector($this->getSpeaker()))
 			throw new AlizePHPException("Vector file missing. Path: ".$this->getVectorFileName());
 		if (!$this->getTrainModelFileName($speaker_to_compare_to))
 			throw new AlizePHPException("There is not enough information about $speaker_to_compare_to".
