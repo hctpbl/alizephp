@@ -5,6 +5,7 @@ namespace alizephp;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
+require '../vendor/autoload.php';
 require __DIR__.'/AlizePHPException.php';
 
 /**
@@ -348,7 +349,7 @@ class AlizePHP {
 			throw new AlizePHPException("Original audio file missing. Path: ".$audio_file_path);
 		$this->speaker = (string)$speaker;
 		$this->original_audio_file = $audio_file_path;
-		$this->log = new Logger();
+		$this->log = new Logger("alizephp");
 		$this->log->pushHandler(new StreamHandler("../log/alizephp.log", Logger::INFO));
 	}
 	
@@ -377,7 +378,7 @@ class AlizePHP {
 		$outvalues = $this->executeCommand($command);
 		if (!file_exists($this->getRawFeaturesFileName()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
-		$this->log->addInfo($outvalues[2]);
+		$this->log->addInfo($outvalues[1]);
 		return true;
 	}
 	
@@ -407,7 +408,7 @@ class AlizePHP {
 		$outvalues = $this->executeCommand($command);
 		if (!file_exists($this->getNormalisedEnergyFileName()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
-		$this->log->addInfo($outvalues[2]);
+		$this->log->addInfo($outvalues[1]);
 		return true;
 	}
 	
@@ -437,7 +438,7 @@ class AlizePHP {
 		$outvalues = $this->executeCommand($command);
 		if (!file_exists($this->getLabelFileName()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
-		$this->log->addInfo($outvalues[2]);
+		$this->log->addInfo($outvalues[1]);
 		return true;
 	}
 	
@@ -468,7 +469,7 @@ class AlizePHP {
 		$outvalues = $this->executeCommand($command);
 		if (!file_exists($this->getNormalisedFeaturesFileName()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
-		$this->log->addInfo($outvalues[2]);
+		$this->log->addInfo($outvalues[1]);
 		return true;
 	}
 	
@@ -548,7 +549,7 @@ class AlizePHP {
 		if (!$this->hasVector($this->getSpeaker()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
 
-		$this->log->addInfo($outvalues[2]);
+		$this->log->addInfo($outvalues[1]);
 		return true;
 	}
 	
@@ -610,7 +611,7 @@ class AlizePHP {
 			$test_succes = true;
 		}
 
-		$this->log->addInfo($outvalues[2]);
+		$this->log->addInfo($outvalues[1]);
 		return $test_succes;
 	}
 	
