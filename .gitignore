@@ -12,3 +12,4 @@ data/pcm/*
 data/prm/*
 data/lbl/*
 *.pcm
+/vendor/

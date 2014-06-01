@@ -2,6 +2,9 @@
 
 namespace alizephp;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 require __DIR__.'/AlizePHPException.php';
 
 /**
@@ -66,6 +69,8 @@ class AlizePHP {
 	 * @var array Array to hold every configuration option, as directory paths and extensions
 	 */
 	private $conf;
+	
+	private $log;
 	
 	/**
 	 * Returns speaker Id as a string
@@ -343,6 +348,8 @@ class AlizePHP {
 			throw new AlizePHPException("Original audio file missing. Path: ".$audio_file_path);
 		$this->speaker = (string)$speaker;
 		$this->original_audio_file = $audio_file_path;
+		$this->log = new Logger();
+		$this->log->pushHandler(new StreamHandler("../log/alizephp.log", Logger::INFO));
 	}
 	
 	/**
@@ -362,7 +369,7 @@ class AlizePHP {
 			throw new AlizePHPException("Original audio file missing. Path: ".$audio_file_path);
 		file_put_contents($this->getAudioFileName(), file_get_contents($this->getOriginalAudioFile()));
 		if ($param_string === null) {
-			$param_string = "-m -k 0.97 -p19 -n 24 -r 22 -e -D -A -F PCM16";
+			$param_string = "-m -k 0.97 -p19 -n 24 -r 22 -e -D -A -F PCM16 -f 44100";
 		}
 		$audio_file = $this->getAudioFileName();
 		$feaures_file = $this->getRawFeaturesFileName();
@@ -370,6 +377,7 @@ class AlizePHP {
 		$outvalues = $this->executeCommand($command);
 		if (!file_exists($this->getRawFeaturesFileName()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
+		$this->log->addInfo($outvalues[2]);
 		return true;
 	}
 	
@@ -399,6 +407,7 @@ class AlizePHP {
 		$outvalues = $this->executeCommand($command);
 		if (!file_exists($this->getNormalisedEnergyFileName()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
+		$this->log->addInfo($outvalues[2]);
 		return true;
 	}
 	
@@ -428,6 +437,7 @@ class AlizePHP {
 		$outvalues = $this->executeCommand($command);
 		if (!file_exists($this->getLabelFileName()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
+		$this->log->addInfo($outvalues[2]);
 		return true;
 	}
 	
@@ -458,6 +468,7 @@ class AlizePHP {
 		$outvalues = $this->executeCommand($command);
 		if (!file_exists($this->getNormalisedFeaturesFileName()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
+		$this->log->addInfo($outvalues[2]);
 		return true;
 	}
 	
@@ -536,7 +547,8 @@ class AlizePHP {
 		$outvalues = $this->executeCommand($command);
 		if (!$this->hasVector($this->getSpeaker()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
-		
+
+		$this->log->addInfo($outvalues[2]);
 		return true;
 	}
 	
@@ -597,7 +609,8 @@ class AlizePHP {
 		if ($results[2] == "1") {
 			$test_succes = true;
 		}
-		
+
+		$this->log->addInfo($outvalues[2]);
 		return $test_succes;
 	}
 	
