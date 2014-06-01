@@ -418,7 +418,7 @@ class AlizePHP {
 		if ($cfg_file_path === null) {
 			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['detect_energy'];
 		}
-		if ($this->getLabelFileName()) {
+		if (file_exists($this->getLabelFileName())) {
 			unlink($this->getLabelFileName());
 		}
 		$command = $this->getBinPath()."EnergyDetector --config $cfg_file_path --inputFeatureFilename ".$this->getSpeaker().
