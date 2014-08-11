@@ -560,6 +560,52 @@ class AlizePHP {
 	}
 	
 	/**
+	 * Test if the speaker's object is the same person as speaker with ID of $speaker_to_compare_to.
+	 * Speaker object calling this function must have its normalised features generated and stored,
+	 * while $speaker_to_compare_to must have its model.
+	 * If a path to a config file is not provided, "cfg_files"->"compute_test" option in
+	 * settings file sets the path of the config file that will be used.
+	 * @param string $speaker_to_compare_to ID of the speaker compared agains this object's one
+	 * @param string $cfg_file_path OPTIONAL Path to a config file for Alize's computeTest command
+	 * @throws AlizePHPException
+	 * @return boolean true if both speakers are the same person, false if not
+	 */
+	public function computeTest($speaker_to_compare_to, $cfg_file_path = null) {
+		if (!file_exists($this->getNormalisedFeaturesFileName()))
+			throw new AlizePHPException("Missing parameters for speaker ".$this->getSpeaker().
+					". Path: ".$this->getNormalisedFeaturesFileName());
+		if (!$this->hasModel($speaker_to_compare_to))
+			throw new AlizePHPException("There is not enough information about $speaker_to_compare_to".
+					", the model for this user must be generated before testing his identity");
+		
+		if (!file_exists($this->getNdxFileName())) {
+			$this->createNdxFile();
+		}
+		if (!file_exists($this->getNdxFileName()))
+			throw new AlizePHPException("Unable to create ndx test file. Path: ".$this->getNdxFileName());
+		
+		if ($cfg_file_path === null) {
+			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['compute_test'];
+		}
+		
+		$command = $this->getBinPath()."ComputeTest --config $cfg_file_path ".
+					" --targetIdList ".$this->getTrainModelFileName($speaker_to_compare_to).
+					" --featureFilesPath ".$this->getFeauresFilePath().
+					" --labelFilesPath ".$this->getLabelsFilePath().
+					" --mixtureFilesPath ".$this->getMixtureFilesPath().
+					" --ndxFilename ".$this->getNdxFileName().
+					" --loadMixtureFileExtension ".$this->conf['extensions']['mixture'].
+					" --loadFeatureFileExtension ".$this->conf['extensions']['normalised_features'].
+					" --outputFilename ".$this->getResultsFileName();
+		$outvalues = $this->executeCommand($command);
+		if (!file_exists($this->getResultsFileName()))
+			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
+
+		$this->log->addInfo($outvalues[1]);
+		return true;
+	}
+	
+	/**
 	 * Creates the iv extractor file needed to extract a user's i-vector
 	 */
 	private function createIvExtractorFile() {
@@ -629,11 +675,16 @@ class AlizePHP {
 	}
 	
 	/**
-	 * Creates an ndx file with comparison id cases. In our approach, it simply outputs actual user as spk01
+	 * Creates an ndx file with comparison id cases. In our approach, it simply outputs
+	 * actual user the user to compare to. In i-vector based methods it's always 'spk01',
+	 * while in GMM based methods a parameter with the user to compare to model name must be given
 	 */
-	private function createNdxFile() {
+	private function createNdxFile($model_name = null) {
+		if ($model_name === null) {
+			$model_name = "spk01";
+		}
 		$ndxFile = fopen($this->getNdxFileName(), "w");
-		fputs($ndxFile, $this->getSpeaker(). " spk01");
+		fputs($ndxFile, $this->getSpeaker(). " $model_name");
 		fclose($ndxFile);
 	}
 	

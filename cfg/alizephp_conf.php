@@ -19,7 +19,8 @@
 				'normalise_features' => 'NormFeat_SPro.cfg',
 				'iv_extractor' => 'ivExtractor_fast.cfg',
 				'iv_test' => 'ivTest_EFR_Mahalanobis.cfg',
-				'train_target' => 'TrainTarget.cfg'
+				'train_target' => 'TrainTarget.cfg',
+				'compute_test' => 'ComputeTest.cfg'
 			),
 		'extensions' => array(
 				'audio' => '.pcm',
