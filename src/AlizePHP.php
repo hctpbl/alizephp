@@ -579,7 +579,7 @@ class AlizePHP {
 					", the model for this user must be generated before testing his identity");
 		
 		if (!file_exists($this->getNdxFileName())) {
-			$this->createNdxFile();
+			$this->createNdxFile($speaker_to_compare_to);
 		}
 		if (!file_exists($this->getNdxFileName()))
 			throw new AlizePHPException("Unable to create ndx test file. Path: ".$this->getNdxFileName());
