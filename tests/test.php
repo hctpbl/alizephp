@@ -15,6 +15,7 @@ try {
 	$speakerrec->normaliseEnergy();
 	$speakerrec->detectEnergy();
 	$speakerrec->normaliseFeatures();
+	$speakerrec->trainTarget();
 	$speakerrec->ivExtractor();
 } catch (Exception $e) {
 	print $e->getMessage();
@@ -25,6 +26,7 @@ try {
 	$speakerrec2->normaliseEnergy();
 	$speakerrec2->detectEnergy();
 	$speakerrec2->normaliseFeatures();
+	$speakerrec2->trainTarget();
 	$speakerrec2->ivExtractor();
 	$speakerrec2->ivTest("person");
 } catch (Exception $e) {

@@ -9,7 +9,8 @@
 		'labels_dir' => "lbl/",
 		'mixture_files_path' => "$installation_path/gmm/",
 		'matrix_files_path' => "$installation_path/mat/",
-		'vector_files_path' => "$installation_path/iv/",
+		'ivector_files_path' => "$installation_path/iv/",
+		'svector_files_path' => "$installation_path/iv/",
 		'ndx_dir' => "$installation_path/ndx/",
 		'results_dir' => "$installation_path/res/",
 		'cfg_files' => array (
@@ -17,7 +18,8 @@
 				'detect_energy' => 'EnergyDetector_SPro.cfg',
 				'normalise_features' => 'NormFeat_SPro.cfg',
 				'iv_extractor' => 'ivExtractor_fast.cfg',
-				'iv_test' => 'ivTest_EFR_Mahalanobis.cfg'
+				'iv_test' => 'ivTest_EFR_Mahalanobis.cfg',
+				'train_target' => 'TrainTarget.cfg'
 			),
 		'extensions' => array(
 				'audio' => '.pcm',
@@ -28,6 +30,7 @@
 				'ndx_files' => '.ndx',
 				'mixture' => '.gmm',
 				'matrix' => '.matx',
-				'vector' => '.y'
+				'svector' => '.sv',
+				'ivector' => '.y'
 			)
 	);

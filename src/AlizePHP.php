@@ -210,11 +210,20 @@ class AlizePHP {
 	
 	/**
 	 * Returns path of vector files.
-	 * Vector files path value can be set in "vector_files_path" option of config file.
+	 * Vector files path value can be set in "svector_files_path" option of config file.
 	 * @return string
 	 */
-	public function getVectorFilesPath() {
-		return $this->conf['vector_files_path'];
+	public function getSVectorFilesPath() {
+		return $this->conf['svector_files_path'];
+	}
+	
+	/**
+	 * Returns path of i-vector files.
+	 * I-Vector files path value can be set in "ivector_files_path" option of config file.
+	 * @return string
+	 */
+	public function getIVectorFilesPath() {
+		return $this->conf['ivector_files_path'];
 	}
 
 	/**
@@ -291,11 +300,20 @@ class AlizePHP {
 	
 	/**
 	 * Returns full path to vector file. Filename will be username
-	 * and extension can be set in extensions -> vector option
+	 * and extension can be set in extensions -> svector option
 	 * @return string
 	 */
-	public function getVectorFileName(){
-		return $this->getVectorFilesPath().$this->getSpeaker().$this->conf['extensions']['vector'];
+	public function getSVectorFileName(){
+		return $this->getSVectorFilesPath().$this->getSpeaker().$this->conf['extensions']['svector'];
+	}
+	
+	/**
+	 * Returns full path to i-vector file. Filename will be username
+	 * and extension can be set in extensions -> ivector option
+	 * @return string
+	 */
+	public function getIVectorFileName(){
+		return $this->getIVectorFilesPath().$this->getSpeaker().$this->conf['extensions']['ivector'];
 	}
 	
 	/**
@@ -308,6 +326,15 @@ class AlizePHP {
 			$speaker = $this->getSpeaker();
 		}
 		return $this->getNdxFilesPath()."trainModel_".$speaker.$this->conf['extensions']['ndx_files'];
+	}
+	
+	/**
+	 * Returns full path to model file. Filename will be username
+	 * and extension can be set in extensions -> mixture option
+	 * @return string
+	 */
+	public function getModelFileName() {
+		return $this->getMixtureFilesPath().$this->getSpeaker().$this->conf['extensions']['mixture'];
 	}
 	
 	/**
@@ -474,17 +501,6 @@ class AlizePHP {
 	}
 	
 	/**
-	 * Creates the iv extractor file needed to extract a user's i-vector
-	 */
-	private function createIvExtractorFile() {
-		$ivExtractFile = fopen($this->getIvExtractorFileName(), "w");
-		fputs($ivExtractFile, $this->getSpeaker()." ".$this->getSpeaker());
-		fclose($ivExtractFile);
-		if (!file_exists($this->getIvExtractorFileName()))
-			throw new AlizePHPException("Unable to create iv extractor file. PATH: ".$this->getIvExtractorFileName());
-	}
-	
-	/**
 	 * Creates the train model file needed to extract a user's i-vector
 	 */
 	private function createTrainModelFile() {
@@ -493,6 +509,65 @@ class AlizePHP {
 		fclose($trainWorldFile);
 		if (!file_exists($this->getTrainModelFileName()))
 			throw new AlizePHPException("Unable to create train model file. PATH: ".$this->getTrainModelFileName());
+	}
+	
+	/**
+	 * 
+	 * @param string $cfg_file_path OPTIONAL Path to a config file for Alize's TrainTarget command
+	 * @throws AlizePHPException
+	 * @return boolean
+	 * @see AlizePHP::normaliseFeatures() For the method to get normalised features and
+	 * generate this method's input.
+	 * @see AlizePHP::detectEnergy() For the method to get the label file and
+	 * generate this method's input.
+	 * @see AlizePHP::getModelFileName() For the path of the vector file
+	 * @see AlizePHP::hasModel() To test if a vector for this user has been created using this method
+	 */
+	public function trainTarget($cfg_file_path = null) {
+		if (!file_exists($this->getLabelFileName()))
+			throw new AlizePHPException("Labels file missing. Path: ".$this->getLabelFileName());
+		if (!file_exists($this->getNormalisedFeaturesFileName()))
+			throw new AlizePHPException("Features file missing. Path: ".$this->getFeauresFilePath());
+		
+		if ($cfg_file_path === null) {
+			$cfg_file_path = $this->getBaseConfigDir() . $this->conf['cfg_files']['train_target'];
+		}
+		
+		if (!file_exists($this->getTrainModelFileName())) {
+			$this->createTrainModelFile();
+		}
+		if (!file_exists($this->getTrainModelFileName()))
+			throw new AlizePHPException("Unable to create train model. Path: ".$this->getTrainModelFileName());
+
+		$command = $this->getBinPath()."TrainTarget --config $cfg_file_path --mixtureFilesPath ".$this->getMixtureFilesPath().
+		" --matrixFilesPath ".$this->getMatrixFilesPath()." --vectorFilesPath ".$this->getSVectorFilesPath().
+		" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath().
+		" --targetIdList ".$this->getTrainModelFileName($this->getSpeaker()).
+		" --loadFeatureFileExtension ".$this->conf['extensions']['normalised_features'].
+		" --loadMixtureFileExtension ".$this->conf['extensions']['mixture'].
+		" --saveMixtureFileExtension ".$this->conf['extensions']['mixture'].
+		" --loadMatrixFilesExtension ".$this->conf['extensions']['matrix'].
+		" --saveMatrixFilesExtension ".$this->conf['extensions']['matrix'].
+		" --vectorFilesEtension ".$this->conf['extensions']['svector'];
+			
+		$outvalues = $this->executeCommand($command);
+		if (!$this->hasModel($this->getSpeaker()))
+			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
+		
+		$this->log->addInfo($outvalues[1]);
+		return true;
+		
+	}
+	
+	/**
+	 * Creates the iv extractor file needed to extract a user's i-vector
+	 */
+	private function createIvExtractorFile() {
+		$ivExtractFile = fopen($this->getIvExtractorFileName(), "w");
+		fputs($ivExtractFile, $this->getSpeaker()." ".$this->getSpeaker());
+		fclose($ivExtractFile);
+		if (!file_exists($this->getIvExtractorFileName()))
+			throw new AlizePHPException("Unable to create iv extractor file. PATH: ".$this->getIvExtractorFileName());
 	}
 	
 	/**
@@ -508,7 +583,7 @@ class AlizePHP {
 	 * generate this method's input.
 	 * @see AlizePHP::detectEnergy() For the method to get the label file and
 	 * generate this method's input.
-	 * @see AlizePHP::getVectorFileName() For the path of the vector file
+	 * @see AlizePHP::getIVectorFileName() For the path of the vector file
 	 * @see AlizePHP::hasVector() To test if a vector for this user has been created using this method
 	 */
 	public function ivExtractor($cfg_file_path = null) {
@@ -528,7 +603,7 @@ class AlizePHP {
 			throw new AlizePHPException("Unable to create ivExtractor file. Path: ".$this->getIvExtractorFileName());
 		
 		$command = $this->getBinPath()."IvExtractor --config $cfg_file_path --mixtureFilesPath ".$this->getMixtureFilesPath().
-					" --matrixFilesPath ".$this->getMatrixFilesPath()." --saveVectorFilesPath ".$this->getVectorFilesPath().
+					" --matrixFilesPath ".$this->getMatrixFilesPath()." --saveVectorFilesPath ".$this->getIVectorFilesPath().
 					" --featureFilesPath ".$this->getFeauresFilePath()." --labelFilesPath ".$this->getLabelsFilePath().
 					" --targetIdList ".$this->getIvExtractorFileName().
 					" --loadFeatureFileExtension ".$this->conf['extensions']['normalised_features'].
@@ -536,7 +611,7 @@ class AlizePHP {
 					" --saveMixtureFileExtension ".$this->conf['extensions']['mixture'].
 					" --loadMatrixFilesExtension ".$this->conf['extensions']['matrix'].
 					" --saveMatrixFilesExtension ".$this->conf['extensions']['matrix'].
-					" --vectorFilesEtension ".$this->conf['extensions']['vector'].
+					" --vectorFilesEtension ".$this->conf['extensions']['ivector'].
 					" --outputFileName ".$this->getResultsFileName();
 		
 		if (!file_exists($this->getTrainModelFileName())) {
@@ -575,7 +650,7 @@ class AlizePHP {
 	 */
 	public function ivTest($speaker_to_compare_to, $cfg_file_path = null) {
 		if (!$this->hasVector($this->getSpeaker()))
-			throw new AlizePHPException("Vector file missing. Path: ".$this->getVectorFileName());
+			throw new AlizePHPException("I-Vector file missing. Path: ".$this->getIVectorFileName());
 		if (!$this->getTrainModelFileName($speaker_to_compare_to))
 			throw new AlizePHPException("There is not enough information about $speaker_to_compare_to".
 					", i-vector for this user must be extracted before testing his identity");
@@ -590,13 +665,13 @@ class AlizePHP {
 		if (!file_exists($this->getNdxFileName()))
 			throw new AlizePHPException("Unable to create ndx test file. Path: ".$this->getNdxFileName());
 		
-		$command = $this->getBinPath()."IvTest --config $cfg_file_path --loadVectorFilesPath ".$this->getVectorFilesPath().
-					" --testVectorFilesPath ".$this->getVectorFilesPath()." --matrixFilesPath ".$this->getMatrixFilesPath().
+		$command = $this->getBinPath()."IvTest --config $cfg_file_path --loadVectorFilesPath ".$this->getIVectorFilesPath().
+					" --testVectorFilesPath ".$this->getIVectorFilesPath()." --matrixFilesPath ".$this->getMatrixFilesPath().
 					" --targetIdList ".$this->getTrainModelFileName($speaker_to_compare_to).
 					" --ndxFilename ".$this->getNdxFileName().
 					" --loadMatrixFilesExtension ".$this->conf['extensions']['matrix'].
 					" --saveMatrixFilesExtension ".$this->conf['extensions']['matrix'].
-					" --loadVectorFilesExtension ".$this->conf['extensions']['vector'].
+					" --loadVectorFilesExtension ".$this->conf['extensions']['ivector'].
 					" --outputFilename ".$this->getResultsFileName().
 					" --backgroundNdxFilename ".$this->getBackgroundNdxFileName();
 		$outvalues = $this->executeCommand($command);
@@ -635,11 +710,12 @@ class AlizePHP {
 		$this->deletefeFile($this->getRawFeaturesFileName());
 		$this->deletefeFile($this->getNormalisedEnergyFileName());
 		$this->deletefeFile($this->getNormalisedFeaturesFileName());
-		$this->deletefeFile($this->getVectorFileName());
+		$this->deletefeFile($this->getSVectorFileName());
+		$this->deletefeFile($this->getIVectorFileName());
 		$this->deletefeFile($this->getIvExtractorFileName());
 		$this->deletefeFile($this->getTrainModelFileName());
 		$this->deletefeFile($this->getNdxFileName());
-		$this->deletefeFile($this->getResultsFileName());
+		//$this->deletefeFile($this->getResultsFileName());
 		return true;
 	}
 	
@@ -649,11 +725,25 @@ class AlizePHP {
 	 * @throws AlizePHPException
 	 * @return boolean true if the i-vector for the user has been calculated, false otherwise
 	 */
-	public static function hasVector($user) {
+	public static function hasIVector($user) {
 		if (!$user)
 			throw new AlizePHPException("A user Id must be provided in order to test i-vector existance.");
 		$conf = require __DIR__.'/../cfg/alizephp_conf.php';
-		$vector_file_path = $conf['vector_files_path'].$user.$conf['extensions']['vector'];
+		$vector_file_path = $conf['ivector_files_path'].$user.$conf['extensions']['ivector'];
+		return file_exists($vector_file_path);
+	}
+	
+	/**
+	 * Checks if a user's model is present, so this user's identity can be tested against another
+	 * @param string $user Id of the user whose model is searched for
+	 * @throws AlizePHPException
+	 * @return boolean true if the model for the user has been calculated, false otherwise
+	 */
+	public static function hasModel($user) {
+		if (!$user)
+			throw new AlizePHPException("A user Id must be provided in order to test model existance.");
+		$conf = require __DIR__.'/../cfg/alizephp_conf.php';
+		$vector_file_path = $conf['mixture_files_path'].$user.$conf['extensions']['mixture'];
 		return file_exists($vector_file_path);
 	}
 	
