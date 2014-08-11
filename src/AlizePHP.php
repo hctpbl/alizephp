@@ -505,7 +505,7 @@ class AlizePHP {
 	 */
 	private function createTrainModelFile() {
 		$trainWorldFile = fopen($this->getTrainModelFileName(), "w");
-		fputs($trainWorldFile, "spk01 ".$this->getSpeaker());
+		fputs($trainWorldFile, $this->getSpeaker()." ".$this->getSpeaker());
 		fclose($trainWorldFile);
 		if (!file_exists($this->getTrainModelFileName()))
 			throw new AlizePHPException("Unable to create train model file. PATH: ".$this->getTrainModelFileName());
@@ -621,7 +621,7 @@ class AlizePHP {
 			throw new AlizePHPException("Unable to create train model. Path: ".$this->getTrainModelFileName());
 			
 		$outvalues = $this->executeCommand($command);
-		if (!$this->hasVector($this->getSpeaker()))
+		if (!$this->hasIVector($this->getSpeaker()))
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
 
 		$this->log->addInfo($outvalues[1]);
@@ -649,7 +649,7 @@ class AlizePHP {
 	 * @return boolean true if botk speakers are the same person, false if not
 	 */
 	public function ivTest($speaker_to_compare_to, $cfg_file_path = null) {
-		if (!$this->hasVector($this->getSpeaker()))
+		if (!$this->hasIVector($this->getSpeaker()))
 			throw new AlizePHPException("I-Vector file missing. Path: ".$this->getIVectorFileName());
 		if (!$this->getTrainModelFileName($speaker_to_compare_to))
 			throw new AlizePHPException("There is not enough information about $speaker_to_compare_to".
