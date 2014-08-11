@@ -377,7 +377,7 @@ class AlizePHP {
 		$this->speaker = (string)$speaker;
 		$this->original_audio_file = $audio_file_path;
 		$this->log = new Logger("alizephp");
-		$this->log->pushHandler(new StreamHandler("../log/alizephp.log", Logger::INFO));
+		$this->log->pushHandler(new StreamHandler($this->conf['log_path']."alizephp.log", Logger::INFO));
 	}
 	
 	/**

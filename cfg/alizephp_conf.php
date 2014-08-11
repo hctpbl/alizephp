@@ -33,5 +33,6 @@
 				'matrix' => '.matx',
 				'svector' => '.sv',
 				'ivector' => '.y'
-			)
+			),
+		'log_path' => "$installation_path/log/"
 	);
