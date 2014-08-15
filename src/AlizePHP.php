@@ -604,7 +604,7 @@ class AlizePHP {
 		$this->log->addInfo($outvalues[1]);
 		
 		$results = file_get_contents($this->getResultsFileName());
-		$testValues = str_split($results);
+		$testValues = explode(" ", $results);
 
 		$this->log->addInfo("Test value: .$testValues[4]");
 		
