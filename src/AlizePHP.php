@@ -602,7 +602,13 @@ class AlizePHP {
 			throw new AlizePHPException($outvalues[1],$command,$outvalues[2],$outvalues[0]);
 
 		$this->log->addInfo($outvalues[1]);
-		return true;
+		
+		$results = file_get_contents($this->getResultsFileName());
+		$testValues = str_split($results);
+
+		$this->log->addInfo("Test value: .$testValues[4]");
+		
+		return $testValues[4];
 	}
 	
 	/**
