@@ -24,6 +24,9 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 		$this->$alizeusrTwo->cleanUserFiles();
 	}
 	
+	/**
+	 * @expectedException AlizePHPException
+	 */
 	public function testCreateUserEmptyUsername() {
 		$emptyUsernameUsr = new AlizePHP("", $this->filePathOne);
 	}

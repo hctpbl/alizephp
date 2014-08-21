@@ -371,7 +371,7 @@ class AlizePHP {
 	 */
 	public function __construct($speaker, $audio_file_path) {
 		$this->getConfig();
-		if (!$speaker) Throw new AlizePHPException("Speaker must be a nonempty value.");
+		if (!$speaker || trim($peaker) === "") Throw new AlizePHPException("Speaker must be a nonempty value.");
 		if (!file_exists($audio_file_path))
 			throw new AlizePHPException("Original audio file missing. Path: ".$audio_file_path);
 		$this->speaker = (string)$speaker;
