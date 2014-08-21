@@ -15,13 +15,17 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	protected $alizeusrTwo;
 	
 	protected function setUp() {
-		$this->$alizeusrOne = new AlizePHP($this->$nameOne, $this->$filePathOne);
-		$this->$alizeusrTwo = new AlizePHP($this->$nameTwo, $this->$filePathTwo);
+		$this->alizeusrOne = new AlizePHP($this->nameOne, $this->filePathOne);
+		$this->alizeusrTwo = new AlizePHP($this->nameTwo, $this->filePathTwo);
 	}
 	
 	protected function tearDown() {
-		$this->$alizeusrOne->cleanUserFiles();
-		$this->$alizeusrTwo->cleanUserFiles();
+		if ($this->alizeusrOne) {
+			$this->$alizeusrOne->cleanUserFiles();
+		}
+		if ($this->alizeusrTwo) {
+			$this->$alizeusrTwo->cleanUserFiles();
+		}
 	}
 	
 	/**
