@@ -6,7 +6,7 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
 require __DIR__.'/../vendor/autoload.php';
-require __DIR__.'/AlizePHPException.php';
+require_once __DIR__.'/AlizePHPException.php';
 
 /**
  * 
@@ -371,9 +371,9 @@ class AlizePHP {
 	 */
 	public function __construct($speaker, $audio_file_path) {
 		$this->getConfig();
-		if (!$speaker || trim($peaker) === "") Throw new AlizePHPException("Speaker must be a nonempty value.");
-		if (!file_exists($audio_file_path))
-			throw new AlizePHPException("Original audio file missing. Path: ".$audio_file_path);
+		if (!$speaker || trim($speaker) === "") Throw new AlizePHPException("Speaker must be a nonempty value.");
+		if (trim($audio_file_path) === "" || !file_exists($audio_file_path))
+			throw new AlizePHPException("Original audio file missing or unreadable. Path: ".$audio_file_path);
 		$this->speaker = (string)$speaker;
 		$this->original_audio_file = $audio_file_path;
 		$this->log = new Logger("alizephp");
