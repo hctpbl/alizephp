@@ -5,7 +5,7 @@ namespace alizephp;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-require '../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 require __DIR__.'/AlizePHPException.php';
 
 /**
