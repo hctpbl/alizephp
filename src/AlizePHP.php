@@ -603,12 +603,12 @@ class AlizePHP {
 
 		$this->log->addInfo($outvalues[1]);
 		
-		$results = file_get_contents($this->getResultsFileName());
+		$results = trim(file_get_contents($this->getResultsFileName()));
 		$testValues = explode(" ", $results);
 
 		$this->log->addInfo("Test value: .$testValues[4]");
 		
-		return $testValues[4];
+		return floatval($testValues[4]);
 	}
 	
 	/**
@@ -765,14 +765,16 @@ class AlizePHP {
 	public function cleanUserFiles() {
 		$this->deletefeFile($this->getAudioFileName());
 		$this->deletefeFile($this->getRawFeaturesFileName());
+		$this->deletefeFile($this->getLabelFileName());
 		$this->deletefeFile($this->getNormalisedEnergyFileName());
 		$this->deletefeFile($this->getNormalisedFeaturesFileName());
 		$this->deletefeFile($this->getSVectorFileName());
 		$this->deletefeFile($this->getIVectorFileName());
 		$this->deletefeFile($this->getIvExtractorFileName());
 		$this->deletefeFile($this->getTrainModelFileName());
+		$this->deletefeFile($this->getModelFileName());
 		$this->deletefeFile($this->getNdxFileName());
-		//$this->deletefeFile($this->getResultsFileName());
+		$this->deletefeFile($this->getResultsFileName());
 		return true;
 	}
 	

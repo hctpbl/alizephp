@@ -13,3 +13,4 @@ data/prm/*
 data/lbl/*
 *.pcm
 /vendor/
+/log/
