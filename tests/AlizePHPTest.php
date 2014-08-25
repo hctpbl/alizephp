@@ -18,6 +18,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	protected $filePathTwo = 'tests/xaag.pcm';
 	
 	/**
+	 * T-ALI01
 	 * Tries to create a user with an empty username
 	 * @expectedException \alizephp\AlizePHPException
 	 * @expectedExceptionMessage Speaker must be a nonempty value.
@@ -27,6 +28,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * T-ALI02
 	 * Tries to create a username with a string containing only blank
 	 * characters
 	 * @expectedException \alizephp\AlizePHPException
@@ -37,6 +39,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * T-ALI03
 	 * Tries to create a user with an empty filename
 	 * @expectedException \alizephp\AlizePHPException
 	 * @expectedExceptionMessage Original audio file missing or unreadable.
@@ -46,6 +49,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * T-ALI04
 	 * Tries to create a user with passing the name of a file that doesn't
 	 * exists
 	 * @expectedException \alizephp\AlizePHPException
@@ -56,6 +60,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * T-ALI05
 	 * Tries to create a user with the name of a file not readable by the process
 	 * @expectedException \alizephp\AlizePHPException
 	 * @expectedExceptionMessage Original audio file missing or unreadable.
@@ -65,6 +70,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * T-ALI06
 	 * Creates an AlizePHP user with correct values
 	 * @return \alizephp\AlizePHP
 	 */
@@ -77,6 +83,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * T-ALI07
 	 * Tests the success of the extraction of features
 	 * @depends testCreateUserSuccessful
 	 * @return \alizephp\AlizePHP
@@ -89,6 +96,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * T-ALI08
 	 * Test the success of the normalisation of energy method
 	 * @depends testExtractFeatures
 	 * @return \alizephp\AlizePHP
@@ -101,6 +109,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * T-ALI09
 	 * Tries to normalise energy without having a features file for the
 	 * user
 	 * @expectedException \alizephp\AlizePHPException
@@ -111,6 +120,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * T-ALI10
 	 * Tests the success of the detection of energy method
 	 * @depends testNormaliseEnergy
 	 * @return \alizephp\AlizePHP
@@ -123,6 +133,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * T-ALI11
 	 * Tries to detect energy without having a normalised energy file for the
 	 * user
 	 * @expectedException \alizephp\AlizePHPException
@@ -133,6 +144,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * T-ALI12
 	 * Tests the normalisation of features method
 	 * @depends testDetectEnergy
 	 * @return \alizephp\AlizePHP
@@ -145,6 +157,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * T-ALI13
 	 * Tries to normalise features without a label file for the
 	 * user
 	 * @expectedException \alizephp\AlizePHPException
@@ -156,6 +169,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 
 
 	/**
+	 * T-ALI14
 	 * Tests the success of the train target method
 	 * @depends testNormaliseFeatures
 	 */
@@ -168,6 +182,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * T-ALI15
 	 * Tries to generate a model without having a normalised features
 	 * file for the user
 	 * @expectedException \alizephp\AlizePHPException
