@@ -71,6 +71,9 @@ class AlizePHP {
 	 */
 	private $conf;
 	
+	/**
+	 * @var Logger Logger instance of the Monolog package, used to log events.
+	 */
 	private $log;
 	
 	/**
@@ -79,15 +82,6 @@ class AlizePHP {
 	 */
 	public function getSpeaker() {
 		return $this->speaker;
-	}
-	
-	/**
-	 * Returs full path to the original audio file provided in the 
-	 * creation of the object
-	 * @return string
-	 */
-	public function getOriginalAudioFile() {
-		return $this->original_audio_file;
 	}
 	
 	/**
@@ -366,36 +360,35 @@ class AlizePHP {
 	/**
 	 * Creates an AlizePHP object
 	 * @param string $speaker User id of the speaker
-	 * @param string $audio_file_path Filepath to an audio file sample of user
 	 * @throws AlizePHPException
 	 */
-	public function __construct($speaker, $audio_file_path) {
+	public function __construct($speaker) {
 		$this->getConfig();
 		if (!$speaker || trim($speaker) === "") Throw new AlizePHPException("Speaker must be a nonempty value.");
-		if (trim($audio_file_path) === "" || !file_exists($audio_file_path))
-			throw new AlizePHPException("Original audio file missing or unreadable. Path: ".$audio_file_path);
 		$this->speaker = (string)$speaker;
-		$this->original_audio_file = $audio_file_path;
 		$this->log = new Logger("alizephp");
 		$this->log->pushHandler(new StreamHandler($this->conf['log_path']."alizephp.log", Logger::INFO));
 	}
 	
 	/**
 	 * 
-	 * Creates raw features file from audio provided in constructor and stores audio in alizephp
+	 * Creates raw features file from audio provided and stores audio in alizephp
 	 * directory structure.
 	 * If a param string for the sfbcep command is not provided, the default of
 	 * "-m -k 0.97 -p19 -n 24 -r 22 -e -D -A -F PCM16" will be used.
-	 * @param string $param_string OPTIONAL Parameter string for sfbcep command 
+	 * @param string $param_string OPTIONAL Parameter string for sfbcep command
+	 * @param string $audio_file_path Filepath to an audio file sample of user
 	 * @throws AlizePHPException
 	 * @return boolean
 	 * @see AlizePHP::getAudioFileName() for the path of the audio file copied
 	 * @see AlizePHP::getRawFeaturesFileName() for the path of the raw features filename
 	 */
-	public function extractFeatures ($param_string = null) {
-		if (!file_exists($this->getOriginalAudioFile()))
-			throw new AlizePHPException("Original audio file missing. Path: ".$audio_file_path);
-		file_put_contents($this->getAudioFileName(), file_get_contents($this->getOriginalAudioFile()));
+	public function extractFeatures ($audio_file_path, $param_string = null) {
+		if (trim($audio_file_path) === "" || !file_exists($audio_file_path))
+			throw new AlizePHPException("Audio file does not exist. Path: ".$audio_file_path);
+		if (!is_readable($audio_file_path))
+			throw new AlizePHPException("Read permission denied for audio file. Path: ".$audio_file_path);
+		file_put_contents($this->getAudioFileName(), file_get_contents($audio_file_path));
 		if ($param_string === null) {
 			$param_string = "-m -k 0.97 -p19 -n 24 -r 22 -e -D -A -F PCM16 -f 44100";
 		}

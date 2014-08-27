@@ -40,46 +40,52 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	
 	/**
 	 * T-ALI03
-	 * Tries to create a user with an empty filename
-	 * @expectedException \alizephp\AlizePHPException
-	 * @expectedExceptionMessage Original audio file missing or unreadable.
-	 */
-	public function testCreateUserEmptyFile() {
-		$emptyUsernameUsr = new AlizePHP($this->nameOne, "");
-	}
-	
-	/**
-	 * T-ALI04
-	 * Tries to create a user with passing the name of a file that doesn't
-	 * exists
-	 * @expectedException \alizephp\AlizePHPException
-	 * @expectedExceptionMessage Original audio file missing or unreadable.
-	 */
-	public function testCreateUserNonexistingFile() {
-		$emptyUsernameUsr = new AlizePHP($this->nameOne, "asd.pcm");
-	}
-	
-	/**
-	 * T-ALI05
-	 * Tries to create a user with the name of a file not readable by the process
-	 * @expectedException \alizephp\AlizePHPException
-	 * @expectedExceptionMessage Original audio file missing or unreadable.
-	 */
-	public function testCreateUserUnreadableFile() {
-		$emptyUsernameUsr = new AlizePHP($this->nameOne, "noPermissions.pcm");
-	}
-	
-	/**
-	 * T-ALI06
 	 * Creates an AlizePHP user with correct values
 	 * @return \alizephp\AlizePHP
 	 */
 	public function testCreateUserSuccessful() {
-		$alizeuser = new AlizePHP($this->nameOne, $this->filePathOne);
+		$alizeuser = new AlizePHP($this->nameOne);
 		$this->assertEquals($alizeuser->getSpeaker(), $this->nameOne);
-		$this->assertEquals($alizeuser->getOriginalAudioFile(), $this->filePathOne);
+		//$this->assertEquals($alizeuser->getOriginalAudioFile(), $this->filePathOne);
 		
 		return $alizeuser;
+	}
+	
+	/**
+	 * T-ALI04
+	 * Tries to create a user with an empty filename
+	 * @depends testCreateUserSuccessful
+	 * @expectedException \alizephp\AlizePHPException
+	 * @expectedExceptionMessage Audio file does not exist
+	 */
+	public function testCreateUserEmptyFile(AlizePHP $alizeuser) {
+		$alizeuser->extractFeatures("");
+		//$emptyUsernameUsr = new AlizePHP($this->nameOne, "");
+	}
+	
+	/**
+	 * T-ALI05
+	 * Tries to create a user with passing the name of a file that doesn't
+	 * exists
+	 * @depends testCreateUserSuccessful
+	 * @expectedException \alizephp\AlizePHPException
+	 * @expectedExceptionMessage Audio file does not exist
+	 */
+	public function testCreateUserNonexistingFile(AlizePHP $alizeuser) {
+		$alizeuser->extractFeatures("tests/asd.pcm");
+		//$emptyUsernameUsr = new AlizePHP($this->nameOne, "asd.pcm");
+	}
+	
+	/**
+	 * T-ALI06
+	 * Tries to create a user with the name of a file not readable by the process
+	 * @depends testCreateUserSuccessful
+	 * @expectedException \alizephp\AlizePHPException
+	 * @expectedExceptionMessage Read permission denied for audio file
+	 */
+	public function testCreateUserUnreadableFile(AlizePHP $alizeuser) {
+		$alizeuser->extractFeatures("tests/noPermissions.pcm");
+		//$emptyUsernameUsr = new AlizePHP($this->nameOne, "noPermissions.pcm");
 	}
 
 	/**
@@ -89,7 +95,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	 * @return \alizephp\AlizePHP
 	 */
 	public function testExtractFeatures(AlizePHP $alizeuser) {
-		$alizeuser->extractFeatures();
+		$alizeuser->extractFeatures($this->filePathOne);
 		$this->assertFileExists($alizeuser->getRawFeaturesFileName());
 		
 		return $alizeuser;
@@ -115,7 +121,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	 * @expectedException \alizephp\AlizePHPException
 	 */
 	public function testFailNormaliseEnergy() {
-		$otheruser = new AlizePHP($this->nameTwo, $this->filePathTwo);
+		$otheruser = new AlizePHP($this->nameTwo);
 		$otheruser->normaliseEnergy();
 	}
 	
@@ -139,7 +145,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	 * @expectedException \alizephp\AlizePHPException
 	 */
 	public function testFailDetectEnergy() {
-		$otheruser = new AlizePHP($this->nameTwo, $this->filePathTwo);
+		$otheruser = new AlizePHP($this->nameTwo);
 		$otheruser->detectEnergy();
 	}
 	
@@ -163,7 +169,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	 * @expectedException \alizephp\AlizePHPException
 	 */
 	public function testFailNormaliseFeatures() {
-		$otheruser = new AlizePHP($this->nameTwo, $this->filePathTwo);
+		$otheruser = new AlizePHP($this->nameTwo);
 		$otheruser->normaliseFeatures();
 	}
 
@@ -188,7 +194,7 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	 * @expectedException \alizephp\AlizePHPException
 	 */
 	public function testFailTrainTarget() {
-		$otheruser = new AlizePHP($this->nameTwo, $this->filePathTwo);
+		$otheruser = new AlizePHP($this->nameTwo);
 		$otheruser->trainTarget();
 	}
 	
@@ -197,8 +203,8 @@ class AlizePHPTest extends PHPUnit_Framework_TestCase {
 	 * @depends testTrainTarget
 	 */
 	public function testComputeTest(AlizePHP $alizeuser) {
-		$otheruser = new AlizePHP($this->nameTwo, $this->filePathTwo);
-		$otheruser->extractFeatures();
+		$otheruser = new AlizePHP($this->nameTwo);
+		$otheruser->extractFeatures($this->filePathTwo);
 		$otheruser->normaliseEnergy();
 		$otheruser->detectEnergy();
 		$otheruser->normaliseFeatures();
